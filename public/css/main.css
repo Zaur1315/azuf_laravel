@@ -1,4 +1,4 @@
-@import "./reset.css";
+@import "reset.css";
 
 body{
     font-family:' HelveticaNeue','Helvetica', 'Neue','helvetica','Sans-Serif';
@@ -81,7 +81,7 @@ main{
 .check{
     /* flex-direction: row; */
     justify-content: flex-end;
-    
+
 }
 
 
@@ -93,7 +93,7 @@ main{
 }
 #check{
     margin: 0 10px;
-    
+
 }
 
 .input_lab{
@@ -183,7 +183,7 @@ input[type=number] {
 
 .on label{
     color: #ced4da;
-    
+
 }
 
 .on input{
@@ -226,7 +226,7 @@ footer{
     .form_col{
         width: 100%;
     }
-    
+
     .heading{
         font-size: 32px;
     }

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request as CustomRequest;
+
 
 class PaymentController extends Controller
 {
@@ -15,6 +18,7 @@ class PaymentController extends Controller
 
     public function processPayment( Request $request)
     {
+//        dd($request->all());
         function name_to_string($input_string)
         {
             $translit = array(
@@ -45,7 +49,7 @@ class PaymentController extends Controller
         $url = 'https://pay.xezine.az/api/v1/session';
 //        $merchant_key = 'adc58412-c406-11ed-85c2-c69e85a6e85d';
 //        $merchant_pass = 'b045abfd61d075fff377ae49f9905a09';
-        $merchant_key = '98aa0d14-1d44-11ed-ba01-e62d6d068e9c';
+        $merchant_key = 'c0892a60-af39-11eb-affd-fac77cf0e095';
         $merchant_pass = '4793c81766b196912ec030fad06e9756';
         $order_number = 'azuf_'.bin2hex(random_bytes(10));
         $order_amount = number_format($_POST['payment'],2,'.','');;
@@ -82,7 +86,7 @@ class PaymentController extends Controller
         $md5_hash = md5($to_md5);
         $sha1_hash = sha1($md5_hash);
         $session_hash = $sha1_hash;
-        var_dump($session_hash);
+//        var_dump($session_hash);
 
         $payment_data = array(
             "merchant_key" => $merchant_key,
@@ -110,40 +114,27 @@ class PaymentController extends Controller
             'hash' => $session_hash
         );
 
-        $data = json_encode($payment_data);
-        $response = Http::post($url, $data);
-//        $ch = curl_init();
-//        curl_setopt($ch, CURLOPT_URL, $url);
-//        curl_setopt($ch, CURLOPT_POST, true);
-//        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        $response = curl_exec($ch);
-//        curl_close($ch);
-//
-//        $json_response = json_decode($response, true);
-//        if (isset($json_response['redirect_url'])) {
-//            header('Location: ' . $json_response['redirect_url']);
-//            exit;
-//        } else {
-//            var_dump($json_response);
-//            echo 'Error: redirect URL not found in response';
-//        }
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->post($url, $payment_data);
 
         if ($response->successful() && isset($response['redirect_url'])) {
             // Оплата успешно инициирована, перенаправляем пользователя на страницу оплаты
             return redirect()->away($response['redirect_url']);
         } else {
             // Произошла ошибка при инициировании оплаты, обработайте её соответственно
+            // dd($response);
             return back()->with('error', 'Ошибка при инициировании оплаты. Пожалуйста, попробуйте еще раз.');
         }
-
 
 
     }
 
     public function handleNotification(Request $request)
     {
+
         $data = $request->all();
 
         try {

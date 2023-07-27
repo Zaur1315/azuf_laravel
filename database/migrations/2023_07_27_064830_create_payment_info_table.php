@@ -15,17 +15,19 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('public_id', 100);
             $table->string('order_num', 100);
-            $table->string('order_amount', 20);
             $table->string('order_status', 20);
             $table->string('card', 20);
             $table->string('date', 25);
-            $table->text('card_came');
+            $table->string('card_name',255);
             $table->string('customer_email', 255);
             $table->string('customer_ip', 255);
-            $table->string('first_name', 255);
-            $table->string('last_name', 255);
             $table->string('phone', 255);
             $table->string('fin', 255);
+            $table->string('first_name', 255);
+            $table->string('last_name', 255);
+            $table->string('order_amount', 20);
+            $table->string('subject', 255);
+            $table->string('description', 255);
             $table->timestamps();
         });
     }

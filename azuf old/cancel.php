@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="../public/css/main.css">
     <title>Form</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
     <div class="header_wrap">
         <div class="logo">
             <a href="https://www.azuf.az/" class="logo__link">
-                <img class="logo_img" src="./img/logo.webp" alt="logo">
+                <img class="logo_img" src="../public/img/logo.webp" alt="logo">
             </a>
         </div>
         <!--        <div class="language">-->
@@ -37,7 +37,7 @@
 </footer>
 
 <script src="https://unpkg.com/imask"></script>
-<script src="./js/script.js"></script>
+<script src="../public/js/script.js"></script>
 
 </body>
 </html>

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="../public/css/main.css">
     <title>Form</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
         <div class="header_wrap">
             <div class="logo">
                 <a href="https://www.azuf.az/" class="logo__link">
-                    <img class="logo_img" src="./img/logo.webp" alt="logo">
+                    <img class="logo_img" src="../public/img/logo.webp" alt="logo">
                 </a>
             </div>
             <div class="language">
@@ -31,7 +31,7 @@
                     <div class="form_col hidden on">
                         <label class="input_lab" for="first_name">Имя</label>
                         <input type="text" placeholder="Мурад" id="first_name" name="first_name" disabled>
-                    </div>                
+                    </div>
                     <div class="form_col hidden on">
                         <label class="input_lab" for="last_name">Фамилия</label>
                         <input type="text" placeholder="Мурадов" id="last_name" name="last_name" disabled>
@@ -41,7 +41,7 @@
                     <div class="form_col hidden on">
                         <label class="input_lab" for="mail">E-Mail</label>
                         <input type="email" placeholder="murad_muradov@mail.com" id="mail" name="mail" disabled>
-                    </div>                
+                    </div>
                     <div class="form_col hidden on">
                         <label class="input_lab" for="phone">Телефон</label>
                         <input type="tel" id="phone" name="phone" placeholder='+(994)-77-777-77-77' disabled>
@@ -51,11 +51,11 @@
                     <div class="form_col hidden on">
                         <label class="input_lab" for="fin">FIN</label>
                         <input type="text" placeholder="SD545C" maxlength="7" minlength="6" id="fin" name="fin" disabled>
-                    </div> 
+                    </div>
                     <div class="form_col">
                         <label class="input_lab" for="payment">Сумма <span class='star'>*</span></label>
                         <input step="1" required type="number" id="payment" name="payment" >
-                    </div>                
+                    </div>
                 </div>
                 <div class='form_row'>
                     <div class="form-check">
@@ -82,7 +82,7 @@
     </footer>
 
     <script src="https://unpkg.com/imask"></script>
-    <script src="./js/script.js"></script>
+    <script src="../public/js/script.js"></script>
 
 </body>
 </html>

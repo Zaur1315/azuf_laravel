@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\PaymentController::class, 'showPaymentForm'])->name('home');
+Route::get('/', [\App\Http\Controllers\PaymentController::class, 'showPaymentForm'])->name('payment.form');
 
-Route::post('/payment', [\App\Http\Controllers\PaymentController::class, 'processPayment'])->name('payment.process');
+Route::post('/payment/process', [\App\Http\Controllers\PaymentController::class, 'processPayment'])->name('payment.process');
 
 Route::post('/notification', [\App\Http\Controllers\PaymentController::class, 'handleNotification'])->name('payment.notification');
 
