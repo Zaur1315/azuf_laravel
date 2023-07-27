@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\PaymentController::class, 'showPaymentForm'])->name('home');
+
+Route::post('/payment', [\App\Http\Controllers\PaymentController::class, 'processPayment'])->name('payment.process');
+
+Route::post('/notification', [\App\Http\Controllers\PaymentController::class, 'handleNotification'])->name('payment.notification');
+
