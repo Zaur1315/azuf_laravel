@@ -49,7 +49,7 @@ class PaymentController extends Controller
         $url = 'https://pay.xezine.az/api/v1/session';
 //        $merchant_key = 'adc58412-c406-11ed-85c2-c69e85a6e85d';
 //        $merchant_pass = 'b045abfd61d075fff377ae49f9905a09';
-        $merchant_key = 'c0892a60-af39-11eb-affd-fac77cf0e095';
+        $merchant_key = '98aa0d14-1d44-11ed-ba01-e62d6d068e9c';
         $merchant_pass = '4793c81766b196912ec030fad06e9756';
         $order_number = 'azuf_'.bin2hex(random_bytes(10));
         $order_amount = number_format($_POST['payment'],2,'.','');;

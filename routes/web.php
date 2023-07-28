@@ -19,3 +19,4 @@ Route::post('/payment/process', [\App\Http\Controllers\PaymentController::class,
 
 Route::post('/notification', [\App\Http\Controllers\PaymentController::class, 'handleNotification'])->name('payment.notification');
 
+Route::get( '/dashboard',[\App\Http\Controllers\AdminController::class, 'adminHome'])->name('admin.home');
