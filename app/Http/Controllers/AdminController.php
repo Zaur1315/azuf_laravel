@@ -13,4 +13,12 @@ class AdminController extends Controller
         return view('admin/home', ['data'=>$data]);
     }
 
+    public function createPaymentPage()
+    {
+        return view('admin/create_payment_page');
+    }
+
+
+
+
 }
