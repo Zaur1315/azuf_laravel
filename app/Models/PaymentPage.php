@@ -10,7 +10,7 @@ class PaymentPage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['subject', 'description'];
+    protected $fillable = ['subject', 'description', 'slug'];
 
 
     public static function createPage($subject, $description, $slug)
