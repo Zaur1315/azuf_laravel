@@ -10,11 +10,15 @@ class PaymentPage extends Model
 {
     use HasFactory;
 
-    public static function createPage($subject, $description)
+    protected $fillable = ['subject', 'description'];
+
+
+    public static function createPage($subject, $description, $slug)
     {
         return DB::table('payment_pages')->insert([
             'subject' => $subject,
             'description' => $description,
+            'slug' => $slug,
         ]);
     }
 

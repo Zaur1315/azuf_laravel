@@ -23,11 +23,11 @@ Route::get( '/dashboard',[\App\Http\Controllers\AdminController::class, 'adminHo
 
 Route::get('/create-payment-page', [\App\Http\Controllers\AdminController::class, 'createPaymentPage'])->name('admin.create_payment_page');
 
-Route::post('/store-payment-page', [\App\Http\Controllers\AdminController::class, 'storePaymentPage'])->name('admin.store_payment_page');
+//Route::post('/store-payment-page', [\App\Http\Controllers\AdminController::class, 'storePaymentPage'])->name('admin.store_payment_page');
 
 Route::group(['prefix'=>'admin'], function(){
     Route::resource('payment-pages', \App\Http\Controllers\PaymentPageController::class);
     Route::post('/payment-pages/create', [\App\Http\Controllers\PaymentPageController::class, 'createPage'])->name('payment-pages.create');
-
+    Route::post('/store-payment-page',[\App\Http\Controllers\PaymentPageController::class, 'store'])->name('payment-pages.store');
 });
 

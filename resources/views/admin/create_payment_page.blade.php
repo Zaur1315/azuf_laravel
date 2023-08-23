@@ -94,19 +94,22 @@
                             <div class="card-header">
                                 <h3 class="card-title">Форма для заполнения</h3>
                             </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="subject">Заголовок</label>
-                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Введите заголовок">
+                            <form action="{{route('payment-pages.store')}}" method="post">
+                                @csrf
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="subject">Заголовок</label>
+                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Введите заголовок">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Примечание</label>
+                                        <textarea class="form-control" rows="3" id="description" name="description" placeholder="Введите дополнительную информацию"></textarea>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="description">Примечание</label>
-                                    <textarea class="form-control" rows="3" id="description" name="description" placeholder="Введите дополнительную информацию"></textarea>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Сохранить</button>
                                 </div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Сохранить</button>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
