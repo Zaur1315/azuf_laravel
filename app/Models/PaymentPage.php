@@ -1,5 +1,7 @@
 <?php
 
+//Модель для базы данных payment_pages
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;

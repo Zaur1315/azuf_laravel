@@ -1,6 +1,10 @@
 <?php
 
+//Модель для базы данных payment_info
+
 namespace App\Models;
+
+
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

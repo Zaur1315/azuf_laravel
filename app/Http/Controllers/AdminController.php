@@ -1,5 +1,7 @@
 <?php
 
+//Вывод всех записей на домашнюю страницу Админки
+
 namespace App\Http\Controllers;
 
 use App\Models\DBdata;

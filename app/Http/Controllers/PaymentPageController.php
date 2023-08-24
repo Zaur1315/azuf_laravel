@@ -1,6 +1,10 @@
 <?php
 
+//Контроллер для создания заголовков для новых шаблонов платежных страниц
+
 namespace App\Http\Controllers;
+
+
 
 use App\Models\PaymentPage;
 use Illuminate\Http\Request;
