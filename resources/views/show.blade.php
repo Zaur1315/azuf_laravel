@@ -25,10 +25,13 @@
     </div>
 </header>
 <main>
+
     <div class="main_wrap">
         <form enctype="multipart/form-data" action="{{route('payment.process')}}" method="post">
             @csrf
             <div class="form_row">
+                    <input type="hidden" name="subject" id="subject" value="{{$page->subject}}">
+                    <input type="hidden" name="description" id="description" value="{{$page->description}}">
                 <div class="form_col hidden on">
                     <label class="input_lab" for="first_name">Имя</label>
                     <input type="text" placeholder="Мурад" id="first_name" name="first_name" disabled>

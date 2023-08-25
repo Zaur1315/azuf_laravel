@@ -21,7 +21,7 @@ Route::post('/notification', [\App\Http\Controllers\PageController::class, 'hand
 
 Route::get( '/dashboard',[\App\Http\Controllers\AdminController::class, 'adminHome'])->name('admin.home');
 
-Route::get('/create-payment-page', [\App\Http\Controllers\AdminController::class, 'createPaymentPage'])->name('admin.create_payment_page');
+Route::get('/dashboard/create-payment-page', [\App\Http\Controllers\AdminController::class, 'createPaymentPage'])->name('admin.create_payment_page');
 
 //Route::post('/store-payment-page', [\App\Http\Controllers\AdminController::class, 'storePaymentPage'])->name('admin.store_payment_page');
 
