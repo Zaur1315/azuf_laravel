@@ -30,3 +30,11 @@
 .main-footer{
     background-color: rgb(43, 108 ,163);
 }
+
+[class*=sidebar-dark-] .sidebar .btn-add-page{
+    background-color: rgb(43, 108 ,163);
+    border: none;
+    color: white;
+}
+
+

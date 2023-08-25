@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\PaymentController::class, 'showPaymentForm'])->name('payment.form');
+Route::get('/', [\App\Http\Controllers\PageController::class, 'showFirstPage'])->name('payment.form');
 
-Route::post('/payment/process', [\App\Http\Controllers\PaymentController::class, 'processPayment'])->name('payment.process');
+Route::post('/payment/process', [\App\Http\Controllers\PageController::class, 'processPayment'])->name('payment.process');
 
-Route::post('/notification', [\App\Http\Controllers\PaymentController::class, 'handleNotification'])->name('payment.notification');
+Route::post('/notification', [\App\Http\Controllers\PageController::class, 'handleNotification'])->name('payment.notification');
 
 Route::get( '/dashboard',[\App\Http\Controllers\AdminController::class, 'adminHome'])->name('admin.home');
 
@@ -30,4 +30,6 @@ Route::group(['prefix'=>'admin'], function(){
     Route::post('/payment-pages/create', [\App\Http\Controllers\PaymentPageController::class, 'createPage'])->name('payment-pages.create');
     Route::post('/store-payment-page',[\App\Http\Controllers\PaymentPageController::class, 'store'])->name('payment-pages.store');
 });
+
+Route::get('/{slug}', [\App\Http\Controllers\PageController::class, 'showPage'])->name('page.show');
 

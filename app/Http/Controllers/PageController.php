@@ -1,21 +1,26 @@
 <?php
 
-//Контроллер, включающий в себя функцию запроса к платежной системе
-
 namespace App\Http\Controllers;
 
+use App\Models\PaymentPage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request as CustomRequest;
 
-
-class PaymentController extends Controller
+class PageController extends Controller
 {
-    public function showPaymentForm()
+
+    public function showFirstPage()
     {
         return view('payment_form');
+    }
+
+
+    public function showPage($slug)
+    {
+        $page = PaymentPage::where('slug', $slug)->firstOrFail();
+
+        return view('show', ['page' => $page]);
     }
 
     public function processPayment( Request $request)
@@ -71,7 +76,7 @@ class PaymentController extends Controller
         $billing_city = 'Los Angeles';
         $billing_address = 'Moor Building 35274';
         $billing_zip = $request->input('fin') ?: 'Anonim' ;
-        $billing_phone = $request->input('phone');
+        $billing_phone = $request->input('phone') ?: '123456';
         $billing_dist = 'Beverlywood';
         $billing_house_number = '777';
         $recurring_init = true;
@@ -137,7 +142,7 @@ class PaymentController extends Controller
         $data = $request->all();
 
         try {
-            DB::table('azuf')->insert([
+            DB::table('payment_info')->insert([
                 'publicID' => $data['id'],
                 'order_num' => $data['order_number'],
                 'order_amount' => $data['order_amount'],
@@ -151,6 +156,9 @@ class PaymentController extends Controller
                 'last_name' => $data['customer_state'],
                 'phone' => $data['customer_address'],
                 'fin' => $data['order_description'],
+                'subject'=> 'subject',
+                'description' => 'description',
+                'payment_page_id' => '1'
             ]);
             return response()->json(['status'=>'success']);
         } catch (\Exception $e){
