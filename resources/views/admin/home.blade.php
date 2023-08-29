@@ -56,12 +56,12 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter">
-                                                <label>
-                                                    Search:
-                                                    <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1">
-                                                </label>
-                                            </div>
+{{--                                        <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter">--}}
+{{--                                                <label>--}}
+{{--                                                    Search:--}}
+{{--                                                    <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1">--}}
+{{--                                                </label>--}}
+{{--                                            </div>--}}
                                         </div>
                                     </div>
                                     <div class="row">

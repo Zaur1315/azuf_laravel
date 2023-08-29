@@ -38,3 +38,15 @@
 }
 
 
+#example1_wrapper{
+    margin-bottom: 15px;
+}
+
+.pagination .active .page-link{
+    background-color: rgb(43, 108 ,163);
+    border: rgb(43, 108, 163);
+    padding: 9px 12px;
+}
+
+
+
