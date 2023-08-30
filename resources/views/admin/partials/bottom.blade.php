@@ -48,10 +48,12 @@
 <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
 <script src="{{asset('js/admin/adminlte.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{asset('js/admin/demo.js')}}"></script>
+{{--<!-- AdminLTE for demo purposes -->--}}
+{{--<script src="{{asset('js/admin/demo.js')}}"></script>--}}
 
 <script src="{{asset('plugins/data-table/datatables.js')}}"></script>
+
+<script src="{{asset('js/admin/export.js')}}"></script>
 
 <script src="{{asset('js/admin/sorting.js')}}"></script>
 </body>

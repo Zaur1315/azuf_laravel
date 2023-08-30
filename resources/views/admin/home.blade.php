@@ -36,37 +36,31 @@
                             </div>
 
                             <div class="card-body">
-                                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div id="btn_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                     <div class="row"><div class="col-sm-12 col-md-6">
                                             <div class="dt-buttons btn-group flex-wrap">
-                                                <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button">
+                                                <button id="btn-copy" class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="btn-control" type="button">
                                                     <span>Копировать</span>
                                                 </button>
-                                                <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button">
+                                                <button id="btn-csv" class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="btn-control" type="button">
                                                     <span>CSV</span>
                                                 </button>
-                                                <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button">
+                                                <button id="btn-excel" class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="btn-control" type="button">
                                                     <span>Excel</span>
                                                 </button>
-                                                <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button">
+                                                <button id="btn-pdf" class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="btn-control" type="button">
                                                     <span>PDF</span>
                                                 </button>
-                                                <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button">
+                                                <button id="btn-print" class="btn btn-secondary buttons-print" tabindex="0" aria-controls="btn-control" type="button">
                                                     <span>Распечатать</span>
                                                 </button>
                                             </div>
                                         </div>
-{{--                                        <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter">--}}
-{{--                                                <label>--}}
-{{--                                                    Search:--}}
-{{--                                                    <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1">--}}
-{{--                                                </label>--}}
-{{--                                            </div>--}}
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
+                                            <table id="payment-data-table" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
                                                 <thead>
                                                 <tr>
                                                     <th class="sorting" tabindex="0" rowspan="1" colspan="1">Имя</th>

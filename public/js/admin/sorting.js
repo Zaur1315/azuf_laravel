@@ -1,8 +1,4 @@
-// $(document).ready( function () {
-//     $('#example1').DataTable();
-// } );
-
-const table = new DataTable('#example1', {
+const table = new DataTable('#payment-data-table', {
     language: {
         url: 'plugins/data-table/ru-lang.json',
     },
