@@ -38,7 +38,7 @@
                             <div class="card-body">
                                 <div id="btn_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                     <div class="row"><div class="col-sm-12 col-md-6">
-                                            <div class="dt-buttons btn-group flex-wrap">
+                                            <div class="dt-buttons btn-group">
                                                 <button id="btn-copy" class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="btn-control" type="button">
                                                     <span>Копировать</span>
                                                 </button>

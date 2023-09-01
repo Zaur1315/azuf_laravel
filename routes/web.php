@@ -27,6 +27,8 @@ Route::get('/dashboard/create-payment-page', [\App\Http\Controllers\AdminControl
 
 Route::post('/generate-pdf', [\App\Http\Controllers\AdminController::class, 'generatePDF'])->name('generate.pdf');
 
+Route::post('/generate-csv', [\App\Http\Controllers\AdminController::class, 'generateCsv'])->name('generate.Csv');
+
 Route::group(['prefix'=>'admin'], function(){
     Route::resource('payment-pages', \App\Http\Controllers\PaymentPageController::class);
     Route::post('/payment-pages/create', [\App\Http\Controllers\PaymentPageController::class, 'createPage'])->name('payment-pages.create');

@@ -5,10 +5,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\DBdata;
+use App\Models\PaymentPage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 use TCPDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PaymentsExport;
 
 
 class AdminController extends Controller
@@ -25,10 +28,6 @@ class AdminController extends Controller
     }
 
 
-//    public function exportCsv()
-//    {
-//        $data = DBdata::all();
-//    }
 
     public function generatePDF(Request $request)
     {
@@ -60,8 +59,26 @@ class AdminController extends Controller
         // Вставляем таблицу HTML с наименованиями колонок
         $html = '
             <style>
-            th{
-            background-color: #0c84ff;
+
+             table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+
+            th {
+                background-color: #0c84ff;
+                color: #fff;
+                font-weight: bold;
+                font-size: 8px;
+                padding: 10px;
+                text-align: left;
+            }
+
+            td {
+                font-size: 8px;
+                padding: 8px;
+                border: 1px solid #ddd;
             }
             </style>
             <table border="1">
@@ -91,6 +108,14 @@ class AdminController extends Controller
 
         // Генерируем PDF и отправляем пользователю
         $pdf->Output('generated_document.pdf', 'I');
+    }
+
+    public function generateCsv(Request $request)
+    {
+        $filteredData = collect($request->input('data'));
+
+        return Excel::download(new PaymentsExport($filteredData), 'payment.csv');
+
     }
 
 

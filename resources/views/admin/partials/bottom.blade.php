@@ -53,8 +53,6 @@
 
 <script src="{{asset('plugins/data-table/datatables.js')}}"></script>
 
-<script src="{{asset('js/admin/export.js')}}"></script>
-
 <script src="{{asset('js/admin/sorting.js')}}"></script>
 </body>
 </html>
