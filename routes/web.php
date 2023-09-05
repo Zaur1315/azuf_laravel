@@ -29,6 +29,10 @@ Route::post('/generate-pdf', [\App\Http\Controllers\AdminController::class, 'gen
 
 Route::post('/generate-csv', [\App\Http\Controllers\AdminController::class, 'generateCsv'])->name('generate.Csv');
 
+Route::post('/save-excel', '\App\Http\Controllers\AdminController@generateExcel')->name('generate-excel');
+
+
+
 Route::group(['prefix'=>'admin'], function(){
     Route::resource('payment-pages', \App\Http\Controllers\PaymentPageController::class);
     Route::post('/payment-pages/create', [\App\Http\Controllers\PaymentPageController::class, 'createPage'])->name('payment-pages.create');

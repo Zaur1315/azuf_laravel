@@ -1,29 +1,30 @@
 <?php
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Support\Collection;
-use App\Exports\ExportToExcel;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-
-
-class PaymentsExport implements FromCollection, WithHeadings
+class ExcelExport implements FromCollection, WithHeadings
 {
     protected $data;
 
-    public function __construct(Collection $data)
+    public function __construct(array $data)
     {
         $this->data = $data;
     }
 
     public function collection()
     {
-        return $this->data;
+        return new Collection($this->data);
     }
 
     public function headings(): array
     {
+        // Здесь укажите заголовки для столбцов Excel
         return [
             'Имя',
             'Фамилия',
@@ -31,7 +32,7 @@ class PaymentsExport implements FromCollection, WithHeadings
             'Эмейл',
             'Телефон',
             'Фин',
-            'Подробности'
+            'Подробности',
         ];
     }
 }

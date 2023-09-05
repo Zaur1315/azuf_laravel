@@ -4,14 +4,24 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Collection;
+use App\Exports\ExcelExport;
 use App\Models\DBdata;
 use App\Models\PaymentPage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use TCPDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PaymentsExport;
+use Box\Spout\Common\Entity\Row;
+use Box\Spout\Common\Entity\Style\Color;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+
+
 
 
 class AdminController extends Controller
@@ -117,6 +127,23 @@ class AdminController extends Controller
         return Excel::download(new PaymentsExport($filteredData), 'payment.csv');
 
     }
+
+    public function generateExcel(Request $request)
+    {
+        // Получаем данные из запроса
+        $data = $request->input('data');
+
+        // Создаем экземпляр экспорта и генерируем Excel
+        $export = new ExcelExport($data);
+        $file = Excel::raw($export, \Maatwebsite\Excel\Excel::HTML);
+
+        // Отправляем сгенерированный Excel файл клиенту
+        return Response::make($file, 200, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => 'attachment; filename="generated_document.xlsx"',
+        ]);
+    }
+
 
 
 }
