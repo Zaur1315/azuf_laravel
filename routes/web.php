@@ -29,7 +29,7 @@ Route::post('/generate-pdf', [\App\Http\Controllers\AdminController::class, 'gen
 
 Route::post('/generate-csv', [\App\Http\Controllers\AdminController::class, 'generateCsv'])->name('generate.Csv');
 
-Route::post('/save-excel', '\App\Http\Controllers\AdminController@generateExcel')->name('generate-excel');
+Route::post('/generate-excel', '\App\Http\Controllers\AdminController@generateExcel')->name('generate-excel');
 
 
 

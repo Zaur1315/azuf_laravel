@@ -90,9 +90,11 @@ $(document).ready(function (){
             });
             filteredData.push(rowData);
         });
-        console.log(filteredData);
+        // console.log(filteredData);
 
-        let generateExcelRoute = "/azuf_lar/public/save-excel";
+        let generateExcelRoute = "/azuf_lar/public/generate-excel";
+
+
 
         $.ajax({
             url: generateExcelRoute,
@@ -101,22 +103,16 @@ $(document).ready(function (){
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {data: filteredData},
-            responseType: 'blob',
+            xhrFields: {
+                responseType: 'blob'
+            },
             success: function (response) {
                 const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'generated_document.xlsx';
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                // console.log('ответ от сервева:' + response)
-                // const blob = new Blob([response]);
-                // const link = document.createElement('a');
-                // link.href = window.URL.createObjectURL(blob);
-                // link.download = 'generated_document.xlsx';
-                // link.click();
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'generated_document.xlsx';
+                link.click();
+                // a.click();
             },
             error: function (error){
                 console.log('Error:', error);

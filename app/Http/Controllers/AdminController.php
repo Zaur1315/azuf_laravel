@@ -128,22 +128,49 @@ class AdminController extends Controller
 
     }
 
+
+
     public function generateExcel(Request $request)
     {
-        // Получаем данные из запроса
         $data = $request->input('data');
 
-        // Создаем экземпляр экспорта и генерируем Excel
-        $export = new ExcelExport($data);
-        $file = Excel::raw($export, \Maatwebsite\Excel\Excel::HTML);
+        $spreadsheet = new Spreadsheet();
 
-        // Отправляем сгенерированный Excel файл клиенту
-        return Response::make($file, 200, [
-            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'Content-Disposition' => 'attachment; filename="generated_document.xlsx"',
-        ]);
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $dataType = \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING;
+
+        $columnHeaders = [
+            'Имя',
+            'Фамилия',
+            'Сумма',
+            'Эмейл',
+            'Телефон',
+            'Фин',
+            'Подробности'
+        ];
+
+        $sheet->fromArray([$columnHeaders], null, 'A1');
+
+
+        foreach ($data as $rowIndex => $rowData) {
+            foreach ($rowData as $columnIndex => $cellData){
+                $sheet->setCellValueExplicitByColumnAndRow(intval($columnIndex)+1, intval($rowIndex)+2, $cellData, $dataType);
+            }
+        }
+
+        $filename = ' excel.xlsx';
+
+        $path = storage_path('app/excel/'.now().$filename);
+
+        $writer = new Xlsx($spreadsheet);
+
+        $writer->save($path);
+
+        $downloadLink = url('/download-excel/'. $filename);
+
+        // Отправляем файл пользователю для скачивания
+        return response()->download($path, $filename)->deleteFileAfterSend(true);
     }
-
-
 
 }
