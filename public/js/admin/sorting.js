@@ -1,10 +1,16 @@
 //DataTable Installation
-
-const table = new DataTable('#payment-data-table', {
-    language: {
+$(document).ready(function() {
+    $('#payment-data-table').DataTable({
+        "aLengthMenu": [
+            [10, 25, 50, 100, -1], // Количество элементов на странице
+            [10, 25, 50, 100, "Все"] // Отображаемые значения
+        ],
+        "language": {
         url: 'plugins/data-table/ru-lang.json',
-    },
+        // Другие настройки и опции DataTables...
+    }});
 });
+
 
 //PDF Export
 $(document).ready(function () {
@@ -43,40 +49,6 @@ $(document).ready(function () {
     });
 });
 
-//CSV Export
-
-$(document).ready(function (){
-    $('#btn-csv').click(function (){
-       let filteredData = [];
-
-       $('#payment-data-table tbody tr').each(function (){
-          let rowData = [];
-          $(this).find('td').each(function (){
-             rowData.push($(this).text());
-          });
-          filteredData.push(rowData);
-       });
-
-        let generateExcelRoute = "/azuf_lar/public/generate-csv";
-
-        $.ajax({
-           url: generateExcelRoute,
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {data: filteredData},
-            success: function (response) {
-                const blob = new Blob([response]);
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = 'generated_document.csv';
-                link.click();
-            }
-       })
-    });
-});
-
 
 //Excel Export
 $(document).ready(function (){
@@ -90,10 +62,8 @@ $(document).ready(function (){
             });
             filteredData.push(rowData);
         });
-        // console.log(filteredData);
 
         let generateExcelRoute = "/azuf_lar/public/generate-excel";
-
 
 
         $.ajax({
@@ -120,4 +90,61 @@ $(document).ready(function (){
         })
     });
 });
+
+
+//CSV Export
+$(document).ready(function (){
+    $('#btn-csv').click(function (){
+        let filteredData = [];
+
+        $('#payment-data-table tbody tr').each(function (){
+            let rowData = [];
+            $(this).find('td').each(function (){
+                rowData.push($(this).text());
+            });
+            filteredData.push(rowData);
+        });
+        // console.log(filteredData);
+
+        let generateExcelRoute = "/azuf_lar/public/generate-csv";
+
+
+        $.ajax({
+            url: generateExcelRoute,
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {data: filteredData},
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (response) {
+                const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'generated_document.csv';
+                link.click();
+                // a.click();
+            },
+            error: function (error){
+                console.log('Error:', error);
+            }
+        })
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

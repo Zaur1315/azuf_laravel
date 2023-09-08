@@ -23,8 +23,6 @@ Route::get( '/dashboard',[\App\Http\Controllers\AdminController::class, 'adminHo
 
 Route::get('/dashboard/create-payment-page', [\App\Http\Controllers\AdminController::class, 'createPaymentPage'])->name('admin.create_payment_page');
 
-//Route::get('/export-csv', [\App\Http\Controllers\AdminController::class,'exportCsv'])->name('export.csv');
-
 Route::post('/generate-pdf', [\App\Http\Controllers\AdminController::class, 'generatePDF'])->name('generate.pdf');
 
 Route::post('/generate-csv', [\App\Http\Controllers\AdminController::class, 'generateCsv'])->name('generate.Csv');

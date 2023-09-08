@@ -39,9 +39,9 @@
                                 <div id="btn_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                     <div class="row"><div class="col-sm-12 col-md-6">
                                             <div class="dt-buttons btn-group">
-                                                <button id="btn-copy" class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="btn-control" type="button">
-                                                    <span>Копировать</span>
-                                                </button>
+{{--                                                <button id="btn-copy" class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="btn-control" type="button">--}}
+{{--                                                    <span>Копировать</span>--}}
+{{--                                                </button>--}}
                                                 <button id="btn-csv" class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="btn-control" type="button">
                                                     <span>CSV</span>
                                                 </button>
@@ -50,9 +50,6 @@
                                                 </button>
                                                 <button id="btn-pdf" class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="btn-control" type="button">
                                                     <span>PDF</span>
-                                                </button>
-                                                <button id="btn-print" class="btn btn-secondary buttons-print" tabindex="0" aria-controls="btn-control" type="button">
-                                                    <span>Распечатать</span>
                                                 </button>
                                             </div>
                                         </div>

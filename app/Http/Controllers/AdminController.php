@@ -4,22 +4,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Collection;
-use App\Exports\ExcelExport;
 use App\Models\DBdata;
-use App\Models\PaymentPage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\View;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use TCPDF;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\PaymentsExport;
-use Box\Spout\Common\Entity\Row;
-use Box\Spout\Common\Entity\Style\Color;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+
 
 
 
@@ -120,14 +111,6 @@ class AdminController extends Controller
         $pdf->Output('generated_document.pdf', 'I');
     }
 
-    public function generateCsv(Request $request)
-    {
-        $filteredData = collect($request->input('data'));
-
-        return Excel::download(new PaymentsExport($filteredData), 'payment.csv');
-
-    }
-
 
 
     public function generateExcel(Request $request)
@@ -171,6 +154,42 @@ class AdminController extends Controller
 
         // Отправляем файл пользователю для скачивания
         return response()->download($path, $filename)->deleteFileAfterSend(true);
+    }
+
+    public function generateCsv(Request $request)
+    {
+        $data = $request->input('data');
+
+        $headers = [
+            'Имя',
+            'Фамилия',
+            'Сумма',
+            'Эмейл',
+            'Телефон',
+            'Фин',
+            'Подробности'
+        ];
+
+        $csv = "\xEF\xBB\xBF"; // Это BOM для UTF-8 (byte order mark)
+
+        $csv .= implode(',', array_map(function ($value) {
+                return '"' . str_replace('"', '""', $value) . '"';
+            }, $headers)) . "\n";
+
+        foreach ($data as $row) {
+            $csv .= implode(',', array_map(function ($value) {
+                    return '"' . str_replace('"', '""', $value) . '"';
+                }, $row)) . "\n";
+        }
+
+        $filename = 'data.csv';
+        $path = storage_path('app/csv/' . $filename);
+
+        file_put_contents($path, $csv);
+
+        return response()
+            ->download($path, $filename, ['Content-Type' => 'text/csv; charset=UTF-8']);
+//            ->deleteFileAfterSend(true);
     }
 
 }
