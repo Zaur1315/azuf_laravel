@@ -40,3 +40,5 @@ Route::group(['prefix'=>'admin'], function(){
 Route::get('/{slug}', [\App\Http\Controllers\PageController::class, 'showPage'])->name('page.show');
 
 
+
+Route::get('/login', [\App\Http\Controllers\UserLoginController::class, 'loginPage'])->name('login.page');
