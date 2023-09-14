@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use \Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PaymentPage extends Model
 {
@@ -15,17 +16,7 @@ class PaymentPage extends Model
     protected $fillable = ['subject', 'description', 'slug'];
 
 
-    public static function createPage($subject, $description, $slug)
-    {
-        return DB::table('payment_pages')->insert([
-            'subject' => $subject,
-            'description' => $description,
-            'slug' => $slug,
-        ]);
-    }
-
-
-    public function payments()
+    public function payments(): HasMany
     {
      return $this->hasMany(DBdata::class);
     }

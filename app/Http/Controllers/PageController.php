@@ -3,29 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaymentPage;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use \Illuminate\Contracts\View\View;
+use \Illuminate\Foundation\Application;
+use \Illuminate\Contracts\View\Factory;
+use \Illuminate\Contracts\Foundation\Application as Application_Foundation;
 
 class PageController extends Controller
 {
 
-    public function showFirstPage()
+    public function showFirstPage(): View|Application|Factory|Application_Foundation
     {
         return view('payment_form');
     }
 
 
-    public function showPage($slug)
+    public function showPage($slug): Application_Foundation|View
     {
         $page = PaymentPage::where('slug', $slug)->firstOrFail();
 
         return view('show', ['page' => $page]);
     }
 
-    public function processPayment( Request $request)
+    public function processPayment( Request $request): RedirectResponse
     {
-        function name_to_string($input_string)
+        function name_to_string($input_string): array|string|null
         {
             $translit = array(
                 'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd',
@@ -136,7 +144,7 @@ class PageController extends Controller
 
     }
 
-    public function handleNotification(Request $request)
+    public function handleNotification(Request $request): Application|Response|JsonResponse|Application_Foundation|ResponseFactory
     {
 
         $data = $request->all();

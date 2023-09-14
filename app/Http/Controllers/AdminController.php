@@ -6,31 +6,37 @@ namespace App\Http\Controllers;
 
 use App\Models\DBdata;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use \Illuminate\Contracts\View\View;
+use \Illuminate\Foundation\Application;
+use \Illuminate\Contracts\View\Factory;
+use \Illuminate\Contracts\Foundation\Application as Application_Foundation;
 use TCPDF;
-
 
 
 
 
 class AdminController extends Controller
 {
-    public function adminHome()
+
+    public function adminHome(): View|Application|Factory|Application_Foundation
     {
         $data = DBdata::all();
         return view('admin/home', ['data'=>$data]);
     }
 
-    public function createPaymentPage()
+    public function createPaymentPage(): View|Application|Factory|Application_Foundation
     {
         return view('admin/create_payment_page');
     }
 
 
 
-    public function generatePDF(Request $request)
+    public function generatePDF(Request $request): void
     {
         $data = $request->input('data');
 
@@ -113,7 +119,7 @@ class AdminController extends Controller
 
 
 
-    public function generateExcel(Request $request)
+    public function generateExcel(Request $request): BinaryFileResponse
     {
         $data = $request->input('data');
 
@@ -156,7 +162,7 @@ class AdminController extends Controller
         return response()->download($path, $filename)->deleteFileAfterSend(true);
     }
 
-    public function generateCsv(Request $request)
+    public function generateCsv(Request $request): BinaryFileResponse
     {
         $data = $request->input('data');
 
