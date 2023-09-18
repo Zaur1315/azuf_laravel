@@ -5,6 +5,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DBdata;
+use App\Models\PaymentPage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -15,6 +17,9 @@ use \Illuminate\Contracts\View\View;
 use \Illuminate\Foundation\Application;
 use \Illuminate\Contracts\View\Factory;
 use \Illuminate\Contracts\Foundation\Application as Application_Foundation;
+use \Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
+
 use TCPDF;
 
 
@@ -26,14 +31,13 @@ class AdminController extends Controller
     public function adminHome(): View|Application|Factory|Application_Foundation
     {
         $data = DBdata::all();
-        return view('admin/home', ['data'=>$data]);
+        return view('admin/home', ['data' => $data]);
     }
 
     public function createPaymentPage(): View|Application|Factory|Application_Foundation
     {
         return view('admin/create_payment_page');
     }
-
 
 
     public function generatePDF(Request $request): void
@@ -118,7 +122,6 @@ class AdminController extends Controller
     }
 
 
-
     public function generateExcel(Request $request): BinaryFileResponse
     {
         $data = $request->input('data');
@@ -143,20 +146,20 @@ class AdminController extends Controller
 
 
         foreach ($data as $rowIndex => $rowData) {
-            foreach ($rowData as $columnIndex => $cellData){
-                $sheet->setCellValueExplicitByColumnAndRow(intval($columnIndex)+1, intval($rowIndex)+2, $cellData, $dataType);
+            foreach ($rowData as $columnIndex => $cellData) {
+                $sheet->setCellValueExplicitByColumnAndRow(intval($columnIndex) + 1, intval($rowIndex) + 2, $cellData, $dataType);
             }
         }
 
         $filename = ' excel.xlsx';
 
-        $path = storage_path('app/excel/'.now().$filename);
+        $path = storage_path('app/excel/' . now() . $filename);
 
         $writer = new Xlsx($spreadsheet);
 
         $writer->save($path);
 
-        $downloadLink = url('/download-excel/'. $filename);
+        $downloadLink = url('/download-excel/' . $filename);
 
         // Отправляем файл пользователю для скачивания
         return response()->download($path, $filename)->deleteFileAfterSend(true);
@@ -196,6 +199,65 @@ class AdminController extends Controller
         return response()
             ->download($path, $filename, ['Content-Type' => 'text/csv; charset=UTF-8']);
 //            ->deleteFileAfterSend(true);
+    }
+
+    public function editPaymentPage($id): View
+    {
+        $paymentPage = PaymentPage::findOrFail($id);
+        return view('admin.edit_payment_page', compact('paymentPage'));
+    }
+
+
+    public function updatePaymentPage(Request $request, $id): RedirectResponse
+    {
+        $paymentPage = PaymentPage::findOrFail($id);
+
+        $paymentPage->subject = $request->input('subject');
+        $paymentPage->description = $request->input('description');
+        if ($request->input('show')) {
+            $paymentPage->show = true;
+        } else {
+            $paymentPage->show = false;
+        }
+
+        $paymentPage->save();
+
+        return redirect()->route('admin.home')->with('success', 'Страница успешно изменина');
+    }
+
+    public function editUser($id): View
+    {
+        $userInfo = User::findOrFail($id);
+        return view('admin.edit_user', compact('userInfo'));
+    }
+
+    public function updateUser(Request $request, $id): RedirectResponse
+    {
+        $this->validate($request,[
+           'name'=> 'required|string|max:255',
+//           'email'=> 'required|string|email|max:255|unique:users,email,'.$id,
+           'password' => 'nullable|string|min:8|confirmed',
+           'role' => 'required|string',
+        ]);
+
+        $user = User::find($id);
+
+        if(!$user){
+
+            return redirect()->route('admin.home')->with('error', 'Пользователь не найден');
+        }
+
+        $user->name = $request->input('name');
+        $user->role = $request->input('role');
+
+
+        if (!empty($request->input('password'))){
+            $user->password = Hash::make($request->input('password'));
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.home')->with('success', 'Пользователь успешно обновлен');
     }
 
 }

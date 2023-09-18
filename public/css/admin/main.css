@@ -48,5 +48,18 @@
     padding: 9px 12px;
 }
 
+.btn-primary{
+    background-color: rgb(43, 108, 163);
+    border-color: rgb(43, 108, 163);
+}
 
+.btn-primary:hover, [class*=sidebar-dark-] .sidebar .btn-add-page:hover{
+    background-color: #5a6268;
+    border-color: #5a6268;
+}
+
+
+.form-wrap-container{
+    max-width: 600px;
+}
 

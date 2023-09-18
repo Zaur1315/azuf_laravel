@@ -37,11 +37,9 @@
 
                             <div class="card-body">
                                 <div id="btn_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                    <div class="row"><div class="col-sm-12 col-md-6">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6">
                                             <div class="dt-buttons btn-group">
-{{--                                                <button id="btn-copy" class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="btn-control" type="button">--}}
-{{--                                                    <span>Копировать</span>--}}
-{{--                                                </button>--}}
                                                 <button id="btn-csv" class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="btn-control" type="button">
                                                     <span>CSV</span>
                                                 </button>
@@ -53,9 +51,9 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        </div>
                                     </div>
-                                    <div class="row">
+                                    </div>
+                                <div class="row">
                                         <div class="col-sm-12">
                                             <table id="payment-data-table" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
                                                 <thead>
@@ -86,20 +84,20 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
                             </div>
-
                         </div>
-                    </div>
 
+                    </div>
                 </div>
 
             </div>
 
-        </section>
-        <!-- Main content -->
 
-        <!-- /.content -->
+
+        </section>
+
+
+
     </div>
     <!-- /.content-wrapper -->
     @include('admin.partials.footer')
