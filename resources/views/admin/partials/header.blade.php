@@ -15,10 +15,18 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <form id="logout-form" action="{{route('logout')}}" method="POST" >
-                @csrf
-                <button type="submit" class="btn btn-primary">Выйти</button>
-            </form>
+            <div class="row-user d-flex align-items-center justify-content-center">
+                <div class="col user-info">
+                    <a href="http://localhost/azuf_lar/public/dashboard/profile">{{$user}}</a>
+                </div>
+                <div class="col user-logout">
+                    <form id="logout-form" action="{{route('logout')}}" method="POST" >
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Выйти</button>
+                    </form>
+                </div>
+            </div>
         </li>
     </ul>
 </nav>
+

@@ -1,4 +1,3 @@
-{{ session('error') }}
 @include('admin.partials.top')
 
 <div class="wrapper">
@@ -10,13 +9,15 @@
     @include('admin.partials.sidebar')
     <!-- Content Wrapper. Contains page content -->
 
+    {{session('success')}}
+    {{session('error')}}
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Изменение пользователя {{$userInfo->email}}</h1>
+                        <h1 class="m-0">Профиль {{$user->email}}</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -37,33 +38,21 @@
                                 <h3 class="card-title">Форма для заполнения</h3>
                             </div>
 
-                            <form method="POST" action="{{ route('update-user', $userInfo->id ) }}" onsubmit="return confirm('Вы уверены, что хотите сохранить изменения?');">
+                            <form method="POST" action="{{ route('profile.update') }}" onsubmit="return confirm('Вы уверены, что хотите сохранить изменения?');">
                                 @csrf
-
+                                @method('PUT')
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="name">Ф.И.О</label>
-                                        <input id="name" type="text" class="form-control" name="name" value="{{$userInfo->name}}" required autocomplete="name" autofocus>
-
-                                        @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                        @enderror
+                                        <input id="name" disabled type="text" class="form-control" name="name" value="{{$user->name}}" required autocomplete="name" autofocus>
                                     </div>
-                                    <div class="d-flex">
-                                        <div class="form-group w-75">
-                                            <label for="email" >Email</label>
-                                            <input id="email" disabled type="email" class="form-control" name="email" value="{{$userInfo->email}}" required autocomplete="email">
-                                        </div>
-                                        <div class="form-group w-25 ml-3">
-                                            <label for="id">ID</label>
-                                            <input id="id" disabled type="text" class="form-control" name="id" value="{{$userInfo->id}}" required autocomplete="email">
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="email" >Email</label>
+                                        <input id="email" disabled type="email" class="form-control" name="email" value="{{$user->email}}" required autocomplete="email">
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Новый пароль</label>
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
+                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
 
                                         @error('password')
                                         <span class="invalid-feedback" role="alert">
@@ -73,20 +62,14 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="password-confirm">Подтверждения пароля</label>
-                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
+                                        <label for="password_confirmation">Подтверждения пароля</label>
+                                        <input id="password_confirm" type="password" class="form-control" name="password_confirmation">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="role">Тип пользователя</label>
-                                        <select id="role" class="form-select custom-select mb-3 role" name="role" required >
-                                            <option @if( $userInfo->role = 'User') selected @endif value="User">Пользователь</option>
-                                            <option @if( $userInfo->role = 'Admin') selected @endif value="Admin">Администратор</option>
-                                        </select>
-                                    </div>
+
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">
-                                        Изменить пользователя
+                                        Сохранить изменения
                                     </button>
                                 </div>
                             </form>

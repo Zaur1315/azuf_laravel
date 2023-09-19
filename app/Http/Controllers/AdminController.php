@@ -7,8 +7,10 @@ namespace App\Http\Controllers;
 use App\Models\DBdata;
 use App\Models\PaymentPage;
 use App\Models\User;
+use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Testing\Fluent\Concerns\Has;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
@@ -21,8 +23,7 @@ use \Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 
 use TCPDF;
-
-
+use function Laravel\Prompts\password;
 
 
 class AdminController extends Controller
@@ -233,16 +234,16 @@ class AdminController extends Controller
 
     public function updateUser(Request $request, $id): RedirectResponse
     {
-        $this->validate($request,[
-           'name'=> 'required|string|max:255',
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
 //           'email'=> 'required|string|email|max:255|unique:users,email,'.$id,
-           'password' => 'nullable|string|min:8|confirmed',
-           'role' => 'required|string',
+            'password' => 'nullable|string|min:8|confirmed',
+            'role' => 'required|string',
         ]);
 
         $user = User::find($id);
 
-        if(!$user){
+        if (!$user) {
 
             return redirect()->route('admin.home')->with('error', 'Пользователь не найден');
         }
@@ -251,13 +252,44 @@ class AdminController extends Controller
         $user->role = $request->input('role');
 
 
-        if (!empty($request->input('password'))){
+        if (!empty($request->input('password'))) {
             $user->password = Hash::make($request->input('password'));
         }
 
         $user->save();
 
         return redirect()->route('admin.home')->with('success', 'Пользователь успешно обновлен');
+    }
+
+    public function profileEdit(): View
+    {
+        $user = auth()->user();
+        return view('admin.profile', compact('user'));
+    }
+
+
+    public function profileUpdate(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        // Сравниваем новый пароль с текущим
+        if ($request->password) {
+            if (Hash::check($request->password, $user->password)) {
+                return redirect()->route('profile.edit')->with('error', 'Новый пароль совпадает со старым. Укажите другой пароль.');
+            }
+
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+
+            return redirect()->route('profile.edit')->with('success', 'Профиль обновлен.');
+        }
+
+        return redirect()->route('profile.edit')->with('info', 'Профиль не был обновлен, так как новый пароль не был указан.');
     }
 
 }

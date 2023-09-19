@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [\App\Http\Controllers\PageController::class, 'showFirstPage'])->name('payment.form');
+Route::get('/', 'App\Http\Controllers\PageController@showFirstPage')->name('payment.form');
 
-Route::post('/payment/process', [\App\Http\Controllers\PageController::class, 'processPayment'])->name('payment.process');
+Route::post('/payment/process', 'App\Http\Controllers\PageController@processPayment')->name('payment.process');
 
-Route::post('/notification', [\App\Http\Controllers\PageController::class, 'handleNotification'])->name('payment.notification');
+Route::post('/notification', 'App\Http\Controllers\PageController@handleNotification')->name('payment.notification');
 
 
 Route::middleware(['auth'])->group(function (){
@@ -16,11 +16,14 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/generate-csv', 'App\Http\Controllers\AdminController@generateCsv')->name('generate.Csv');
     Route::post('/generate-excel', '\App\Http\Controllers\AdminController@generateExcel')->name('generate-excel');
     Route::group(['prefix'=>'admin'], function(){
-        Route::resource('payment-pages', \App\Http\Controllers\PaymentPageController::class);
+        Route::resource('payment-pages', 'App\Http\Controllers\PaymentPageController');
         Route::post('/payment-pages/create', 'App\Http\Controllers\PaymentPageController@createPage')->name('payment-pages.create')->middleware('admin');
         Route::post('/store-payment-page','App\Http\Controllers\PaymentPageController@store')->name('payment-pages.store')->middleware('admin');
     });
     Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+    Route::get('dashboard/change-password', 'App\Http\Controllers\AdminController@changePass')->name('change-password');
+    Route::get('dashboard/profile', 'App\Http\Controllers\AdminController@profileEdit')->name('profile.edit');
+    Route::put('dashboard/profile/update','App\Http\Controllers\AdminController@profileUpdate')->name('profile.update');
 });
 
 Route::get('/login','App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
