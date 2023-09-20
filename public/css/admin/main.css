@@ -63,3 +63,21 @@
     max-width: 600px;
 }
 
+
+.btn-edit{
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+}
+
+.edit_row{
+    margin: 0 auto;
+    gap: 20px;
+    width: 80px;
+}
+
+

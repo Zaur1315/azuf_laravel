@@ -88,9 +88,19 @@
                                     <button type="submit" class="btn btn-primary">
                                         Изменить пользователя
                                     </button>
+                                    <a href="{{route('admin.home')}}" class="btn btn-secondary">Назад</a>
+                                    @if(auth()->user()->id != $userInfo->id)
+                                        <button type="submit" form="destroy-user" class="btn btn-danger">Удалить</button>
+                                    @endif
+
                                 </div>
                             </form>
-
+                            @if(auth()->user()->id != $userInfo->id)
+                            <form method="POST" action="{{ route('user.destroy', $userInfo->id) }}" id="destroy-user" onsubmit="return confirm('Вы уверены, что хотите удалить этого пользователя?');">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            @endif
                         </div>
                     </div>
 

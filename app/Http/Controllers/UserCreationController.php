@@ -39,6 +39,6 @@ class UserCreationController extends Controller
            'role' => $validationData['role'],
         ]);
 
-        return redirect()->route('user.create')->with('success', 'Пользователь удачно создан');
+        return redirect()->route('user.list')->with('success', 'Пользователь удачно создан');
     }
 }

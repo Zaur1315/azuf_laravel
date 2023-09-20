@@ -49,7 +49,9 @@
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Сохранить</button>
+                                    <a href="{{route('admin.home')}}" class="btn btn-secondary">Назад</a>
                                 </div>
+
                             </form>
 
                         </div>

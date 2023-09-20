@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function (){
     Route::get('dashboard/change-password', 'App\Http\Controllers\AdminController@changePass')->name('change-password');
     Route::get('dashboard/profile', 'App\Http\Controllers\AdminController@profileEdit')->name('profile.edit');
     Route::put('dashboard/profile/update','App\Http\Controllers\AdminController@profileUpdate')->name('profile.update');
+    Route::get('dashboard/actions-list', 'App\Http\Controllers\ActionController@index')->name('action.list');
 });
 
 Route::get('/login','App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
@@ -37,8 +38,9 @@ Route::get('/dashboard/edit-payment-page/{id}', 'App\Http\Controllers\AdminContr
 Route::put('/dashboard/update-payment-page/{id}', 'App\Http\Controllers\AdminController@updatePaymentPage')->name('update-payment-page')->middleware('admin');
 Route::get('/dashboard/edit-user/{id}', 'App\Http\Controllers\AdminController@editUser')->name('edit-user')->middleware('admin');
 Route::post('/dashboard/update-user/{id}', 'App\Http\Controllers\AdminController@updateUser')->name('update-user')->middleware('admin');
+Route::delete('/dashboard/delete-user/{id}','App\Http\Controllers\AdminController@destroy')->name('user.destroy');
 
-
+Route::get('/dashboard/users-list', 'App\Http\Controllers\UserInfoController@index')->name('user.list')->middleware('admin');
 
 
 Route::get('/{slug}', '\App\Http\Controllers\PageController@showPage')->name('page.show');

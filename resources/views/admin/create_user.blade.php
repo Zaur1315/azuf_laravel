@@ -87,6 +87,7 @@
                                         <button type="submit" class="btn btn-primary">
                                             Добавить пользователя
                                         </button>
+                                    <a href="{{route('admin.home')}}" class="btn btn-secondary">Назад</a>
                                 </div>
                             </form>
 

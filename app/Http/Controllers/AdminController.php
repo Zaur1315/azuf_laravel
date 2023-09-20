@@ -292,4 +292,14 @@ class AdminController extends Controller
         return redirect()->route('profile.edit')->with('info', 'Профиль не был обновлен, так как новый пароль не был указан.');
     }
 
+
+
+    public function destroy($id): RedirectResponse
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->back()->with('success', 'Пользователь успешно удален.');
+    }
+
 }

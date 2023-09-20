@@ -21,7 +21,7 @@
                     </a>
                     <ul class="nav nav-treeview">
 
-                                <li class="nav-item">
+                        <li class="nav-item">
                             <div class="dt-buttons btn-group flex-wrap mt-2 w-100">
                                 <a class="btn btn-secondary btn-add-page" href="{{route('user.create')}}">
                                     <b class="mr-1">+</b> Добавить пользователя
@@ -29,17 +29,11 @@
                             </div>
                         </li>
 
-                        <li class="nav-header mt-2"><h6>Все пользователи:</h6></li>
-
-                        @foreach($users as $user)
-                            <li class="nav-item mb-2">
-                                <a href="http://localhost/azuf_lar/public/dashboard/edit-user/{{$user->id}}" class="nav-link">
-                                    <p>{{$user->name}}</p>
+                            <li class="nav-item mt-2 mb-2">
+                                <a href="{{route('user.list')}}" class="nav-link">
+                                    <p>Все пользователи</p>
                                 </a>
                             </li>
-                        @endforeach
-
-
                     </ul>
                 </li>
                     @endif
@@ -48,7 +42,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
-                            Страницы
+                            Акции
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -58,20 +52,17 @@
                                 <li class="nav-item">
                                     <div class="dt-buttons btn-group flex-wrap mt-2 w-100">
                                         <a class="btn btn-secondary btn-add-page" href="{{route('admin.create_payment_page')}}">
-                                            <b class="mr-1">+</b> Добавить страницу
+                                            <b class="mr-1">+</b> Добавить акцию
                                         </a>
                                     </div>
                                 </li>
                             @endif
                         @endauth
-                        <li class="nav-header mt-2"><h6>Все страницы:</h6></li>
-                        @foreach($pages as $page)
-                            <li class="nav-item mb-2">
-                                <a href="http://localhost/azuf_lar/public/dashboard/edit-payment-page/{{$page->id}}" class="nav-link">
-                                    <p>{{$page->subject}}</p>
+                            <li class="nav-item mt-2 mb-2">
+                                <a href="{{route('action.list')}}" class="nav-link">
+                                    <p>Все акции</p>
                                 </a>
                             </li>
-                        @endforeach
 
                     </ul>
                 </li>
