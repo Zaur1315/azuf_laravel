@@ -30,7 +30,7 @@
                         </li>
 
                             <li class="nav-item mt-2 mb-2">
-                                <a href="{{route('user.list')}}" class="nav-link">
+                                <a href="{{route('user.list')}}" class="nav-link text-center">
                                     <p>Все пользователи</p>
                                 </a>
                             </li>
@@ -59,7 +59,7 @@
                             @endif
                         @endauth
                             <li class="nav-item mt-2 mb-2">
-                                <a href="{{route('action.list')}}" class="nav-link">
+                                <a href="{{route('action.list')}}" class="nav-link text-center">
                                     <p>Все акции</p>
                                 </a>
                             </li>
@@ -69,21 +69,6 @@
 
             </ul>
         </nav>
-
-        <!-- Sidebar Menu -->
-{{--        <nav class="mt-2">--}}
-{{--            <div class="dt-buttons btn-group flex-wrap w-100">--}}
-{{--                <a class="btn btn-secondary btn-add-page" href="{{route('admin.create_payment_page')}}">--}}
-{{--                    <b class="mr-1">+</b> Добавить страницу--}}
-{{--                </a>--}}
-{{--            </div>--}}
-{{--            <div class="dt-buttons btn-group flex-wrap mt-2 w-100">--}}
-{{--                <a class="btn btn-secondary btn-add-page" href="{{route('user.create')}}">--}}
-{{--                    <b class="mr-1">+</b> Добавить пользователя--}}
-{{--                </a>--}}
-{{--            </div>--}}
-{{--        </nav>--}}
-        <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
 </aside>

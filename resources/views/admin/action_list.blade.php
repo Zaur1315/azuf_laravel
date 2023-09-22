@@ -66,8 +66,8 @@
                                             <tbody>
                                             @foreach($actions as $action)
                                                 <tr>
-                                                    <td >{{$action->id}}</td>
-                                                    <td>{{$action->subject}}</td>
+                                                    <td>{{$action->id}}</td>
+                                                    <td><a href="{{ route('payment-pages.payment', $action) }}">{{$action->subject}}</a></td>
                                                     <td>{{$action->description}}</td>
                                                     <td>{{$action->created_at}}</td>
                                                     <td>{{$action->slug}}</td>

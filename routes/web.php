@@ -19,12 +19,14 @@ Route::middleware(['auth'])->group(function (){
         Route::resource('payment-pages', 'App\Http\Controllers\PaymentPageController');
         Route::post('/payment-pages/create', 'App\Http\Controllers\PaymentPageController@createPage')->name('payment-pages.create')->middleware('admin');
         Route::post('/store-payment-page','App\Http\Controllers\PaymentPageController@store')->name('payment-pages.store')->middleware('admin');
+        Route::get('payment-pages/{page}/payment', 'App\Http\Controllers\PaymentPageController@showPayments')->name('payment-pages.payment');
     });
     Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
     Route::get('dashboard/change-password', 'App\Http\Controllers\AdminController@changePass')->name('change-password');
     Route::get('dashboard/profile', 'App\Http\Controllers\AdminController@profileEdit')->name('profile.edit');
     Route::put('dashboard/profile/update','App\Http\Controllers\AdminController@profileUpdate')->name('profile.update');
     Route::get('dashboard/actions-list', 'App\Http\Controllers\ActionController@index')->name('action.list');
+    Route::get('/api/data-table', 'DataTableController@index');
 });
 
 Route::get('/login','App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');

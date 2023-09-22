@@ -4,6 +4,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DBdata;
 use App\Models\PaymentPage;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -36,6 +37,13 @@ class PaymentPageController extends Controller
         ]);
 
         return redirect()->route('admin.home')->with('success', 'Создана новая страница');
+    }
+
+    public function showPayments(PaymentPage $page)
+    {
+        $payments = DBdata::where('payment_page_id', $page->id)->get();
+
+        return view('admin.action_payments', compact('payments', 'page'));
     }
 
 
