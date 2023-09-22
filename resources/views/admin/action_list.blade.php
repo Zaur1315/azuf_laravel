@@ -91,6 +91,9 @@
 
                                         </table>
                                     </div>
+                                    <div class="col-12 mt-3">
+                                        {{$actions->links()}}
+                                    </div>
                                 </div>
                             </div>
                         </div>

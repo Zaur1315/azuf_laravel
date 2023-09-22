@@ -10,7 +10,7 @@ class ActionController extends Controller
 {
     public function index(): View
     {
-        $actions = PaymentPage::all();
+        $actions = PaymentPage::paginate(10);
 
         return view('admin.action_list')->with('actions', $actions);
     }

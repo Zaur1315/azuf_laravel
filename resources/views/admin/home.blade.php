@@ -57,7 +57,7 @@
                                     </div>
                                 <div class="row">
                                         <div class="col-sm-12">
-                                            <table id="payment-data-table" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
+                                            <table id="payment-data-table-1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
                                                 <thead>
                                                 <tr>
                                                     <th class="sorting" tabindex="0" rowspan="1" colspan="1">Имя</th>
@@ -85,6 +85,9 @@
 
                                             </table>
                                         </div>
+                                    <div class="col-12 mt-3">
+                                        {{$data->links()}}
+                                    </div>
                                     </div>
                             </div>
                         </div>

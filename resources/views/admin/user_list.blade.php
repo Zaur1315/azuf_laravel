@@ -95,8 +95,10 @@
                                                 </tr>
                                             @endforeach
                                             </tbody>
-
                                         </table>
+                                    </div>
+                                    <div class="col-12 mt-3">
+                                        {{$users->links()}}
                                     </div>
                                 </div>
                             </div>

@@ -8,6 +8,7 @@ use App\Models\DBdata;
 use App\Models\PaymentPage;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Testing\Fluent\Concerns\Has;
@@ -31,7 +32,7 @@ class AdminController extends Controller
 
     public function adminHome(): View|Application|Factory|Application_Foundation
     {
-        $data = DBdata::all();
+        $data = DBdata::paginate(2);
         return view('admin/home', ['data' => $data]);
     }
 
@@ -300,6 +301,20 @@ class AdminController extends Controller
         $user->delete();
 
         return redirect()->back()->with('success', 'Пользователь успешно удален.');
+    }
+
+
+
+
+    public function getData(Request $request)
+    {
+        $sortBy = $request->input('sort');
+        $filter = $request->input('filter');
+
+
+        $query = DBdata::query();
+
+//        if ($)
     }
 
 }

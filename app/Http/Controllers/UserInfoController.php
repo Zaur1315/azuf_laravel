@@ -10,7 +10,7 @@ class UserInfoController extends Controller
 {
     public function index(): View
     {
-        $users = User::all();
+        $users = User::paginate(2);
 
         return view('admin.user_list')->with('users', $users);
     }
