@@ -56,20 +56,24 @@
                                     </div>
                                     </div>
                                 <div class="row">
+                                    <div class="filter">
+                                        <input type="text" id="filter" class="filter">
+                                    </div>
                                         <div class="col-sm-12">
-                                            <table id="payment-data-table-1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
+                                            <table id="payment-data-table" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
                                                 <thead>
+
                                                 <tr>
-                                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">Имя</th>
-                                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">Фамилия</th>
-                                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">Сумма</th>
-                                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">Эмейл</th>
-                                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">Телефон</th>
-                                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">Фин</th>
-                                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">Подробности</th>
+                                                    <th class="sorting" tabindex="0" data-direction="none" data-column="first_name" rowspan="1" colspan="1">Имя</th>
+                                                    <th class="sorting" tabindex="0" data-direction="none" data-column='last_name' rowspan="1" colspan="1">Фамилия</th>
+                                                    <th class="sorting" tabindex="0" data-direction="none" data-column='order_amount' rowspan="1" colspan="1">Сумма</th>
+                                                    <th class="sorting" tabindex="0" data-direction="none" data-column='customer_email' rowspan="1" colspan="1">Эмейл</th>
+                                                    <th class="sorting" tabindex="0" data-direction="none" data-column='phone' rowspan="1" colspan="1">Телефон</th>
+                                                    <th class="sorting" tabindex="0" data-direction="none" data-column='fin' rowspan="1" colspan="1">Фин</th>
+                                                    <th class="sorting" tabindex="0" data-direction="none" data-column='subject' rowspan="1" colspan="1">Подробности</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="table-body">
                                                 @foreach($data as $item)
                                                 <tr>
                                                     <td class="dtr-control sorting_1" tabindex="0">{{$item->first_name}}</td>

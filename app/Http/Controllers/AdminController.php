@@ -9,6 +9,7 @@ use App\Models\PaymentPage;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
 use Dflydev\DotAccessData\Data;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Testing\Fluent\Concerns\Has;
@@ -30,13 +31,81 @@ use function Laravel\Prompts\password;
 class AdminController extends Controller
 {
 
-    public function adminHome(): View|Application|Factory|Application_Foundation
+    public function adminHome(Request $request): View
     {
-        $data = DBdata::paginate(2);
+//        $data = DBdata::paginate(2);
+//        return view('admin/home', ['data' => $data]);
+
+        $sortBy = $request->input('sort', 'id');
+        $direction = $request->input('direction', 'asc');
+        $filter = $request->input('filter');
+
+        $dataQuery = DBdata::orderBy($sortBy, $direction);
+
+        if ($filter) {
+            $dataQuery->where('name', 'like', '%' . $filter . '%');
+        }
+
+        $data = $dataQuery->paginate(2);
+
         return view('admin/home', ['data' => $data]);
     }
 
-    public function createPaymentPage(): View|Application|Factory|Application_Foundation
+    public function getData(Request $request): JsonResponse
+    {
+        $sortBy = $request->input('sort');
+        $direction = $request->input('direction');
+        $filter = $request->input('filter');
+
+        $query = DBdata::query();
+
+        if ($sortBy) {
+            if ($direction === 'asc') {
+                $query->orderBy($sortBy);
+            } elseif ($direction === 'desc') {
+                $query->orderByDesc($sortBy);
+            }
+        }
+
+        if ($filter) {
+            $query->where('name', 'like', '%' . $filter . '%');
+        }
+
+        $data = $query->paginate(2);
+
+        return response()->json($data);
+    }
+
+
+    public function getPagination(Request $request): string
+    {
+        $sortBy = $request->input('sort');
+        $direction = $request->input('direction');
+        $filter = $request->input('filter');
+
+        $query = DBdata::query();
+
+        if ($sortBy) {
+            if ($direction === 'asc') {
+                $query->orderBy($sortBy);
+            } elseif ($direction === 'desc') {
+                $query->orderByDesc($sortBy);
+            }
+        }
+
+        if ($filter) {
+            $query->where('name', 'like', '%' . $filter . '%');
+        }
+
+        $data = $query->paginate(2);
+
+        // Возвращаем HTML-код для пагинации
+        return $data->links()->toHtml();
+    }
+
+
+
+    public function createPaymentPage(): View
     {
         return view('admin/create_payment_page');
     }
@@ -303,18 +372,5 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Пользователь успешно удален.');
     }
 
-
-
-
-    public function getData(Request $request)
-    {
-        $sortBy = $request->input('sort');
-        $filter = $request->input('filter');
-
-
-        $query = DBdata::query();
-
-//        if ($)
-    }
 
 }

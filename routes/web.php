@@ -27,7 +27,8 @@ Route::middleware(['auth'])->group(function (){
     Route::put('dashboard/profile/update','App\Http\Controllers\AdminController@profileUpdate')->name('profile.update');
     Route::get('dashboard/actions-list', 'App\Http\Controllers\ActionController@index')->name('action.list');
     Route::get('/api/data-table', 'DataTableController@index');
-    Route::get('/admin/data', 'AdminController@getData');
+    Route::get('/admin/data', 'App\Http\Controllers\AdminController@getData');
+    Route::get('/admin/pagination', 'App\Http\Controllers\AdminController@getPagination');
 });
 
 Route::get('/login','App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
