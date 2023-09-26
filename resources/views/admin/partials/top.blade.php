@@ -25,6 +25,7 @@
 
     <link rel="stylesheet" href="{{asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
+    <meta name="csrf-token" content="{{csrf_token()}}">
 </head>
 
 

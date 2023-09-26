@@ -111,3 +111,9 @@
     <!-- ./wrapper -->
 
 @include('admin.partials.bottom')
+
+
+
+</body>
+    </html>
+

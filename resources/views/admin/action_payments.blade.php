@@ -50,25 +50,17 @@
                                         <table id="single-payment-table" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
                                             <thead>
                                             <tr>
-                                                <th class="" tabindex="0" rowspan="1" colspan="1">Имя</th>
-                                                <th class="" tabindex="0" rowspan="1" colspan="1">Фамилия</th>
-                                                <th class="" tabindex="0" rowspan="1" colspan="1">Сумма</th>
-                                                <th class="" tabindex="0" rowspan="1" colspan="1">Эмейл</th>
-                                                <th class="" tabindex="0" rowspan="1" colspan="1">Телефон</th>
-                                                <th class="" tabindex="0" rowspan="1" colspan="1">Фин</th>
+                                                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Имя</th>
+                                                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Фамилия</th>
+                                                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Сумма</th>
+                                                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Эмейл</th>
+                                                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Телефон</th>
+                                                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Фин</th>
+                                                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Дата</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($payments as $payment)
-                                                <tr>
-                                                    <td class="dtr-control sorting_1" tabindex="0">{{$payment->first_name}}</td>
-                                                    <td>{{$payment->last_name}}</td>
-                                                    <td class="">{{$payment->order_amount}}</td>
-                                                    <td class="">{{$payment->customer_email}}</td>
-                                                    <td>{{$payment->phone}}</td>
-                                                    <td>{{$payment->fin}}</td>
-                                                </tr>
-                                            @endforeach
+
                                             </tbody>
 
                                         </table>
@@ -82,12 +74,7 @@
 
             </div>
 
-
-
         </section>
-
-
-
     </div>
     <!-- /.content-wrapper -->
     @include('admin.partials.footer')
@@ -95,3 +82,36 @@
 <!-- ./wrapper -->
 
 @include('admin.partials.bottom')
+<script>
+    // DataTable Installation
+    $(document).ready(function() {
+        $('#single-payment-table').DataTable({
+            processing: true,
+            serverSide: true, // Включите серверную пагинацию
+            ajax: {
+                url: "{{route('payment-pages.payment', ['page' => $page])}}",
+                type: 'GET', // HTTP-метод
+            },
+            columns: [
+                { data: "first_name", name:"first_name" },
+                { data: "last_name", name:"last_name" },
+                { data: "order_amount", name:"order_amount" },
+                { data: "customer_email", name:"customer_email"},
+                { data: "phone", name:"phone" },
+                { data: "fin", name:"fin" },
+                { data: "date", name:"date" }
+            ],
+            "aLengthMenu": [
+                [3, 10, 25, 50, 100, -1], // Количество элементов на странице
+                [3, 10, 25, 50, 100, "Все"] // Отображаемые значения
+            ],
+            "language": {
+                url: "{{asset('plugins/data-table/ru-lang.json')}}",
+            }
+        })
+    });
+</script>
+
+</body>
+</html>
+

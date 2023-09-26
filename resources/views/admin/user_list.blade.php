@@ -63,42 +63,9 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($users as $user)
-                                                <tr>
-                                                    <td >{{$user->id}}</td>
-                                                    <td>{{$user->name}}</td>
-                                                    <td>{{$user->email}}</td>
-                                                    <td>
-                                                        @if($user->role == 'Admin')
-                                                            Администратор
-                                                        @else
-                                                            Пользователь
-                                                        @endif
-                                                    </td>
-                                                    <td>{{$user->created_at}}</td>
-                                                    <td class="d-flex justify-content-between">
-                                                        <div class="edit_row d-flex">
-                                                            <div class="edit_col"><a href="http://localhost/azuf_lar/public/dashboard/edit-user/{{$user->id}}" class="nav-link btn btn-edit btn-primary btn-sm">
-                                                                    <i class="nav-icon fas fa-pen"></i>
-                                                                </a></div>
-                                                            @if(auth()->user()->id != $user->id)
-                                                            <div class="edit_col"><button href="#" form="destroy-user{{$user->id}}" class="nav-link btn btn-sm btn-danger btn-edit">
-                                                                    <i class="nav-icon fas fa-times link-danger"></i>
-                                                                </button></div>
-                                                                <form method="POST" action="{{ route('user.destroy', $user->id) }}" id="destroy-user{{$user->id}}" onsubmit="return confirm('Вы уверены, что хотите удалить этого пользователя?');">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                </form>
-                                                            @endif
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+
                                             </tbody>
                                         </table>
-                                    </div>
-                                    <div class="col-12 mt-3">
-                                        {{$users->links()}}
                                     </div>
                                 </div>
                             </div>
@@ -118,3 +85,55 @@
 <!-- ./wrapper -->
 
 @include('admin.partials.bottom')
+
+
+<script>
+    $(document).ready(function() {
+        $('#users-data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route('user.list') }}', // Укажите правильный маршрут для получения данных
+                type: 'GET'
+            },
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'email', name: 'email' },
+                {
+                    data: 'role',
+                    name: 'role',
+                    render: function(data, type, full, meta) {
+                        return data === 'Admin' ? 'Администратор' : 'Пользователь';
+                    }
+                },
+                { data: 'created_at', name: 'created_at' },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false, // Запрет сортировки этой колонки
+                    searchable: false, // Запрет поиска в этой колонке
+                    render: function(data, type, full, meta) {
+                        // Проверка на администратора и текущего пользователя
+                        if (full.role === 'Admin' && {{ auth()->user()->id }} === full.id) {
+                            return '<div class="edit_row d-flex"><div class="edit_col"><a href="http://localhost/azuf_lar/public/dashboard/edit-user/' + full.id + '" class="nav-link btn btn-edit btn-primary btn-sm"><i class="nav-icon fas fa-pen"></i></a> </div></div>'
+                        } else {
+                            return '<div class="edit_row d-flex"><div class="edit_col"><a href="http://localhost/azuf_lar/public/dashboard/edit-user/' + full.id + '" class="nav-link btn btn-edit btn-primary btn-sm"><i class="nav-icon fas fa-pen"></i></a> </div><div class="edit_col"><button href="#" form="destroy-user' + full.id + '" class="nav-link btn btn-sm btn-danger btn-edit"><i class="nav-icon fas fa-times link-danger"></i></button>' + '<form method="POST" action="{{ url('dashboard/delete-user/') }}/' + full.id + '" id="destroy-user' + full.id + '" onsubmit="return confirm(\'Вы уверены, что хотите удалить этого пользователя?\');">@csrf @method('DELETE')</form></div></div>'
+                        }
+                    }
+                }
+            ],
+            "aLengthMenu": [
+                [3, 10, 25, 50, 100, -1], // Количество элементов на странице
+                [3, 10, 25, 50, 100, "Все"] // Отображаемые значения
+            ],
+            "language": {
+                url: "{{asset('plugins/data-table/ru-lang.json')}}",
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
+

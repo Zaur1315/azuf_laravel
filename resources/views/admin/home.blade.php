@@ -56,13 +56,9 @@
                                     </div>
                                     </div>
                                 <div class="row">
-                                    <div class="filter">
-                                        <input type="text" id="filter" class="filter">
-                                    </div>
                                         <div class="col-sm-12">
                                             <table id="payment-data-table" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
                                                 <thead>
-
                                                 <tr>
                                                     <th class="sorting" tabindex="0" data-direction="none" data-column="first_name" rowspan="1" colspan="1">Имя</th>
                                                     <th class="sorting" tabindex="0" data-direction="none" data-column='last_name' rowspan="1" colspan="1">Фамилия</th>
@@ -71,27 +67,14 @@
                                                     <th class="sorting" tabindex="0" data-direction="none" data-column='phone' rowspan="1" colspan="1">Телефон</th>
                                                     <th class="sorting" tabindex="0" data-direction="none" data-column='fin' rowspan="1" colspan="1">Фин</th>
                                                     <th class="sorting" tabindex="0" data-direction="none" data-column='subject' rowspan="1" colspan="1">Подробности</th>
+                                                    <th class="sorting" tabindex="0" data-direction="none" data-column='date' rowspan="1" colspan="1">Дата</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody id="table-body">
-                                                @foreach($data as $item)
-                                                <tr>
-                                                    <td class="dtr-control sorting_1" tabindex="0">{{$item->first_name}}</td>
-                                                    <td>{{$item->last_name}}</td>
-                                                    <td class="">{{$item->order_amount}}</td>
-                                                    <td class="">{{$item->customer_email}}</td>
-                                                    <td>{{$item->phone}}</td>
-                                                    <td>{{$item->fin}}</td>
-                                                    <td>{{$item->subject}}</td>
-                                                </tr>
-                                                @endforeach
                                                 </tbody>
 
                                             </table>
                                         </div>
-                                    <div class="col-12 mt-3">
-                                        {{$data->links()}}
-                                    </div>
                                     </div>
                             </div>
                         </div>
@@ -113,4 +96,38 @@
 </div>
 <!-- ./wrapper -->
 
-@include('admin.partials.bottom')
+
+    @include('admin.partials.bottom')
+<script>
+    $(document).ready(function() {
+        $('#payment-data-table').DataTable({
+            processing: true,
+            serverSide: true, // Включите серверную пагинацию
+            ajax: {
+                url: "{{route('admin.home')}}", // URL-адрес серверного эндпоинта
+                type: 'GET', // HTTP-метод
+            },
+            columns: [
+                {data: "first_name", name: "first_name"},
+                {data: "last_name", name: "last_name"},
+                {data: "order_amount", name: "order_amount"},
+                {data: "customer_email", name: "customer_email"},
+                {data: "phone", name: "phone"},
+                {data: "fin", name: "fin"},
+                {data: "subject", name: "subject"},
+                {data: "date", name: "date"}
+            ],
+            "aLengthMenu": [
+                [3, 10, 25, 50, 100, -1], // Количество элементов на странице
+                [3, 10, 25, 50, 100, "Все"] // Отображаемые значения
+            ],
+            "language": {
+                url: "{{asset('plugins/data-table/ru-lang.json')}}",
+            }
+        });
+    });
+</script>
+
+    </body>
+</html>
+

@@ -17,5 +17,4 @@
 {{--<script type="module" src="{{asset('js/admin/copy.js')}}"></script>--}}
 
 <script src="{{asset('js/admin/sorting.js')}}"></script>
-</body>
-</html>
+

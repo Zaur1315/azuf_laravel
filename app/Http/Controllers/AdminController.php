@@ -12,6 +12,7 @@ use Dflydev\DotAccessData\Data;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\Fluent\Concerns\Has;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -25,30 +26,30 @@ use \Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 
 use TCPDF;
+use Yajra\DataTables\DataTables;
 use function Laravel\Prompts\password;
 
 
 class AdminController extends Controller
 {
 
-    public function adminHome(Request $request): View
+    public function adminHome(Request $request): JsonResponse|View
     {
 //        $data = DBdata::paginate(2);
 //        return view('admin/home', ['data' => $data]);
-
-        $sortBy = $request->input('sort', 'id');
-        $direction = $request->input('direction', 'asc');
-        $filter = $request->input('filter');
-
-        $dataQuery = DBdata::orderBy($sortBy, $direction);
-
-        if ($filter) {
-            $dataQuery->where('name', 'like', '%' . $filter . '%');
+        if ($request->ajax()) {
+            $data = DBdata::select('first_name', 'last_name', 'order_amount', 'customer_email', 'phone', 'fin', 'subject', 'date')->get();
+            return Datatables::of($data)->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
 
-        $data = $dataQuery->paginate(2);
+        return view('admin/home');
 
-        return view('admin/home', ['data' => $data]);
     }
 
     public function getData(Request $request): JsonResponse
@@ -75,34 +76,6 @@ class AdminController extends Controller
 
         return response()->json($data);
     }
-
-
-    public function getPagination(Request $request): string
-    {
-        $sortBy = $request->input('sort');
-        $direction = $request->input('direction');
-        $filter = $request->input('filter');
-
-        $query = DBdata::query();
-
-        if ($sortBy) {
-            if ($direction === 'asc') {
-                $query->orderBy($sortBy);
-            } elseif ($direction === 'desc') {
-                $query->orderByDesc($sortBy);
-            }
-        }
-
-        if ($filter) {
-            $query->where('name', 'like', '%' . $filter . '%');
-        }
-
-        $data = $query->paginate(2);
-
-        // Возвращаем HTML-код для пагинации
-        return $data->links()->toHtml();
-    }
-
 
 
     public function createPaymentPage(): View
@@ -328,7 +301,7 @@ class AdminController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin.home')->with('success', 'Пользователь успешно обновлен');
+        return redirect()->route('user.list')->with('success', 'Пользователь успешно обновлен');
     }
 
     public function profileEdit(): View

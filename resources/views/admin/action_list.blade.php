@@ -64,35 +64,9 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($actions as $action)
-                                                <tr>
-                                                    <td>{{$action->id}}</td>
-                                                    <td><a href="{{ route('payment-pages.payment', $action) }}">{{$action->subject}}</a></td>
-                                                    <td>{{$action->description}}</td>
-                                                    <td>{{$action->created_at}}</td>
-                                                    <td>{{$action->slug}}</td>
-                                                    <td>
-                                                        @if($action->show == 1)
-                                                            Да
-                                                        @else
-                                                            Нет
-                                                        @endif
-                                                    </td>
-                                                    <td class="d-flex justify-content-between">
-                                                        <div class="edit_row d-flex">
-                                                            <div class="edit_col"><a href="http://localhost/azuf_lar/public/dashboard/edit-payment-page/{{$action->id}}" class="nav-link btn btn-edit btn-primary btn-sm">
-                                                                    <i class="nav-icon fas fa-pen"></i>
-                                                                </a></div>
-                                                            </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
 
+                                            </tbody>
                                         </table>
-                                    </div>
-                                    <div class="col-12 mt-3">
-                                        {{$actions->links()}}
                                     </div>
                                 </div>
                             </div>
@@ -112,3 +86,68 @@
 <!-- ./wrapper -->
 
 @include('admin.partials.bottom')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var table = $('#users-data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route('action.list') }}', // Обновите маршрут, если это необходимо
+                type: 'GET'
+            },
+            columns: [
+                { "data": "id" },
+                {
+                    // Столбец с ссылкой
+                    "data": null,
+                    "render": function(data, type, row) {
+                        if (type === 'display') {
+                            return '<a href="' + data.payment_link + '">' + data.subject + '</a>';
+                        }
+                        return data.subject;
+                    }
+                },
+                { "data": "description" },
+                {
+                    data: 'created_at', // Поле с датой
+                    name: 'created_at',
+                    render: function(data, type, full, meta) {
+                        // Форматируем дату с помощью JavaScript (можно использовать любую библиотеку для форматирования даты)
+                        let formattedDate = moment(data).format('YYYY-MM-DD HH:mm:ss'); // Используем Moment.js для форматирования
+                        return formattedDate;
+                    }
+                },
+                { "data": "slug" },
+                {
+                    "data": "show",
+                    "render": function(data, type, row) {
+                        return data == 1 ? 'Да' : 'Нет';
+                    }
+                },
+                {
+                    // Столбец с кнопкой "Редактировать"
+                    "data": null,
+                    "render": function(data, type, row) {
+                        if (type === 'display') {
+                            return '<a href="http://localhost/azuf_lar/public/dashboard/edit-payment-page/' + data.id + '" class="nav-link btn btn-edit btn-primary btn-sm"><i class="nav-icon fas fa-pen"></i></a>';
+                        }
+                        return data.id;
+                    }
+                }
+            ],
+            "aLengthMenu": [
+                [3, 10, 25, 50, 100, -1], // Количество элементов на странице
+                [3, 10, 25, 50, 100, "Все"] // Отображаемые значения
+            ],
+            "language": {
+                url: "{{asset('plugins/data-table/ru-lang.json')}}",
+            }
+            // Остальные настройки DataTables
+        });
+    });
+</script>
+
+</body>
+</html>
+

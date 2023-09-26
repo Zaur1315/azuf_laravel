@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use \Illuminate\Contracts\Foundation\Application as Application_Contracts;
 use \Illuminate\Http\RedirectResponse;
+use Yajra\DataTables\DataTables;
 
 class PaymentPageController extends Controller
 {
@@ -41,9 +42,21 @@ class PaymentPageController extends Controller
 
     public function showPayments(PaymentPage $page)
     {
-        $payments = DBdata::where('payment_page_id', $page->id)->get();
+        if (request()->ajax()) {
+            $payments = DBdata::where('payment_page_id', $page->id)
+                ->select('first_name', 'last_name', 'order_amount', 'customer_email', 'phone', 'fin', 'date')
+                ->get();
 
-        return view('admin.action_payments', compact('payments', 'page'));
+            return Datatables::of($payments)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('admin.action_payments', compact('page'));
     }
 
 

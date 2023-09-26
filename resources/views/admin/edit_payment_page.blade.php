@@ -89,3 +89,9 @@
     <!-- ./wrapper -->
 </div>
 @include('admin.partials.bottom')
+
+
+
+</body>
+</html>
+

@@ -94,4 +94,9 @@
 
     <!-- ./wrapper -->
 
-@include('admin.partials.bottom')
+    @include('admin.partials.bottom')
+
+
+    </body>
+    </html>
+
