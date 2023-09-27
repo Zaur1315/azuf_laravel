@@ -16,7 +16,7 @@ class ActionController extends Controller
 
             return DataTables::of($actions)
                 ->addColumn('action', function ($action) {
-                    return '<a href="' . route('action.list', $action) . '" class="btn btn-primary btn-sm">View</a>';
+                    return '<a href="' . route('payment-pages.payment', $action->id) . '" class="btn btn-primary btn-sm">View</a>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

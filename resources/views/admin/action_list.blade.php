@@ -103,7 +103,7 @@
                     "data": null,
                     "render": function(data, type, row) {
                         if (type === 'display') {
-                            return '<a href="' + data.payment_link + '">' + data.subject + '</a>';
+                            return '<a href="http://localhost/azuf_lar/public/payment-pages/' + data.id + '/payment">' + data.subject + '</a>';
                         }
                         return data.subject;
                     }
@@ -143,7 +143,6 @@
             "language": {
                 url: "{{asset('plugins/data-table/ru-lang.json')}}",
             }
-            // Остальные настройки DataTables
         });
     });
 </script>

@@ -10,6 +10,7 @@ Route::post('/notification', 'App\Http\Controllers\PageController@handleNotifica
 
 
 Route::middleware(['auth'])->group(function (){
+    Route::get('payment-pages/{page}/payment', 'App\Http\Controllers\PaymentPageController@showPayments')->name('payment-pages.payment');
     Route::get( '/dashboard','App\Http\Controllers\AdminController@adminHome')->name('admin.home');
     Route::get('/dashboard/create-payment-page', 'App\Http\Controllers\AdminController@createPaymentPage')->name('admin.create_payment_page')->middleware('admin');
     Route::post('/generate-pdf', 'App\Http\Controllers\AdminController@generatePDF')->name('generate.pdf');
@@ -19,7 +20,7 @@ Route::middleware(['auth'])->group(function (){
         Route::resource('payment-pages', 'App\Http\Controllers\PaymentPageController');
         Route::post('/payment-pages/create', 'App\Http\Controllers\PaymentPageController@createPage')->name('payment-pages.create')->middleware('admin');
         Route::post('/store-payment-page','App\Http\Controllers\PaymentPageController@store')->name('payment-pages.store')->middleware('admin');
-        Route::get('payment-pages/{page}/payment', 'App\Http\Controllers\PaymentPageController@showPayments')->name('payment-pages.payment');
+
     });
     Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
     Route::get('dashboard/change-password', 'App\Http\Controllers\AdminController@changePass')->name('change-password');
