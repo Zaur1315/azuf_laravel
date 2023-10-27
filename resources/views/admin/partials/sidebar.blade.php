@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="{{route('admin.home')}}" class="brand-link">
         <img src="{{asset('/img/logo.webp')}}" alt="Admin" class="brand-image-2">
     </a>
 

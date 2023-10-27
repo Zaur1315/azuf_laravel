@@ -85,3 +85,8 @@
     text-align: center;
 }
 
+
+.col-sm-12 .dataTable{
+    width: 100% !important;
+}
+

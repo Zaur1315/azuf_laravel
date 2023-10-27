@@ -103,6 +103,7 @@ main{
     top: 1px;
     left: 20px;
     padding: 0 4px;
+    border-radius: 6px;
 }
 
 .form_col .submit{
@@ -209,6 +210,48 @@ footer{
     color:rgb(131, 103, 71);
     }
 
+
+
+
+/*List of payments*/
+
+
+.list-container .card-header{
+    /*color: #d1b451;*/
+    font-family: HelveticaNeue, Helvetica Neue, helvetica, Sans-Serif, serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.list-container .btn-green{
+    background-color: #d1b451;
+    color: #fff;
+    border: 2px solid #d1b451;
+    transition: all 200ms;
+}
+
+.list-container .btn-green:hover{
+    background-color: #fff;
+    color: #d1b451;
+}
+
+/*.list-container .pagination .page-link{*/
+/*    color: #000;*/
+/*}*/
+
+.list-container .pagination .page-link{
+    color: #d1b451;
+}
+
+.list-container .pagination .disabled .page-link{
+    color: #212529;
+}
+
+.list-container .pagination .active .page-link{
+    background-color: #d1b451;
+    border-color: #d1b451;
+    color: #fff;
+}
 
 
 

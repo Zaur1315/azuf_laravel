@@ -18,29 +18,8 @@ use Yajra\DataTables\DataTables;
 class PaymentPageController extends Controller
 {
 
-    public function index(): View|Application|Factory|Application_Contracts
-    {
-        $paymentPages = PaymentPage::all();
-        return view('payment_form', ['paymentPages' => $paymentPages]);
-    }
-
-    public function store(Request $request): RedirectResponse
-    {
-        $subject = $request->input('subject');
-        $description = $request->input('description');
-
-        $slug = Str::slug($subject);
-
-        PaymentPage::create([
-            'subject' => $subject,
-            'description' => $description,
-            'slug' => $slug,
-        ]);
-
-        return redirect()->route('admin.home')->with('success', 'Создана новая страница');
-    }
-
-    public function showPayments(PaymentPage $page)
+    public const FILE_NAME = 'payments-list';
+    public function showPayments(PaymentPage $page): View|Application|Factory|\Illuminate\Http\JsonResponse|Application_Contracts
     {
         if (request()->ajax()) {
             $payments = DBdata::where('payment_page_id', $page->id)
@@ -56,7 +35,7 @@ class PaymentPageController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('admin.action_payments', compact('page'));
+        return view('admin.action_payments', ['page'=>$page, 'filename'=>self::FILE_NAME]);
     }
 
 

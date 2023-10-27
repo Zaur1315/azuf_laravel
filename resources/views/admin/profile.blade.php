@@ -1,14 +1,11 @@
 @include('admin.partials.top')
 
 <div class="wrapper">
-    <!-- Preloader -->
-    @include('admin.partials.preloader')
     <!-- Navbar -->
     @include('admin.partials.header')
     <!-- Main Sidebar Container -->
     @include('admin.partials.sidebar')
     <!-- Content Wrapper. Contains page content -->
-
     {{session('success')}}
     {{session('error')}}
     <div class="content-wrapper">
@@ -21,7 +18,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Главная</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Главная</a></li>
                             <li class="breadcrumb-item active">Изменение пользователя</li>
                         </ol>
                     </div><!-- /.col -->
@@ -38,21 +35,26 @@
                                 <h3 class="card-title">Форма для заполнения</h3>
                             </div>
 
-                            <form method="POST" action="{{ route('profile.update') }}" onsubmit="return confirm('Вы уверены, что хотите сохранить изменения?');">
+                            <form method="POST" action="{{ route('profile.update') }}"
+                                  onsubmit="return confirm('Вы уверены, что хотите сохранить изменения?');">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="name">Ф.И.О</label>
-                                        <input id="name" disabled type="text" class="form-control" name="name" value="{{$user->name}}" required autocomplete="name" autofocus>
+                                        <input id="name" disabled type="text" class="form-control" name="name"
+                                               value="{{$user->name}}" required autocomplete="name" autofocus>
                                     </div>
                                     <div class="form-group">
-                                        <label for="email" >Email</label>
-                                        <input id="email" disabled type="email" class="form-control" name="email" value="{{$user->email}}" required autocomplete="email">
+                                        <label for="email">Email</label>
+                                        <input id="email" disabled type="email" class="form-control" name="email"
+                                               value="{{$user->email}}" required autocomplete="email">
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Новый пароль</label>
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
+                                        <input id="password" type="password"
+                                               class="form-control @error('password') is-invalid @enderror"
+                                               name="password">
 
                                         @error('password')
                                         <span class="invalid-feedback" role="alert">
@@ -63,7 +65,8 @@
 
                                     <div class="form-group">
                                         <label for="password_confirmation">Подтверждения пароля</label>
-                                        <input id="password_confirm" type="password" class="form-control" name="password_confirmation">
+                                        <input id="password_confirm" type="password" class="form-control"
+                                               name="password_confirmation">
                                     </div>
 
                                 </div>
@@ -93,10 +96,10 @@
     @include('admin.partials.footer')
 
     <!-- ./wrapper -->
+</div>
+@include('admin.partials.bottom')
 
-    @include('admin.partials.bottom')
 
-
-    </body>
-    </html>
+</body>
+</html>
 

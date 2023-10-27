@@ -2,7 +2,6 @@
 
 <div class="wrapper">
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -32,11 +31,13 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="subject">Заголовок</label>
-                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Введите заголовок">
+                                        <input type="text" class="form-control" id="subject" name="subject"
+                                               placeholder="Введите заголовок">
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Примечание</label>
-                                        <textarea class="form-control" rows="3" id="description" name="description" placeholder="Введите дополнительную информацию"></textarea>
+                                        <textarea class="form-control" rows="3" id="description" name="description"
+                                                  placeholder="Введите дополнительную информацию"></textarea>
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -45,17 +46,10 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-        <!-- Main content -->
-
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
 </div>
 <!-- ./wrapper -->
 

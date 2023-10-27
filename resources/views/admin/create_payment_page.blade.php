@@ -1,8 +1,6 @@
 @include('admin.partials.top')
 
 <div class="wrapper">
-    <!-- Preloader -->
-    @include('admin.partials.preloader')
     <!-- Navbar -->
     @include('admin.partials.header')
     <!-- Main Sidebar Container -->
@@ -18,8 +16,9 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Главная</a></li>
-                            <li class="breadcrumb-item active">Создание страницы пожертвования</li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Главная</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('action.list')}}">Список акций</a></li>
+                            <li class="breadcrumb-item active">Создание страницы</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -40,11 +39,13 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="subject">Заголовок</label>
-                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Введите заголовок">
+                                        <input type="text" class="form-control" id="subject" name="subject"
+                                               placeholder="Введите заголовок">
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Примечание</label>
-                                        <textarea class="form-control" rows="3" id="description" name="description" placeholder="Введите дополнительную информацию"></textarea>
+                                        <textarea class="form-control" rows="3" id="description" name="description"
+                                                  placeholder="Введите дополнительную информацию"></textarea>
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -69,10 +70,9 @@
     <!-- /.content-wrapper -->
     @include('admin.partials.footer')
 
-<!-- ./wrapper -->
+    <!-- ./wrapper -->
 </div>
 @include('admin.partials.bottom')
-
 
 
 </body>

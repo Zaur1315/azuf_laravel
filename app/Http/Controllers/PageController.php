@@ -2,32 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DBdata;
 use App\Models\PaymentPage;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use \Illuminate\Contracts\View\View;
 use \Illuminate\Foundation\Application;
-use \Illuminate\Contracts\View\Factory;
 use \Illuminate\Contracts\Foundation\Application as Application_Foundation;
+
 
 class PageController extends Controller
 {
 
-    public function showFirstPage(): View|Application|Factory|Application_Foundation
+    public function showFirstPage(): View
     {
-        return view('payment_form');
+        $pages = PaymentPage::where('show', 1)->paginate(9);
+        return view('main', compact('pages'));
     }
 
 
-    public function showPage($slug): Application_Foundation|View
+    public function showPage($slug): View
     {
         $page = PaymentPage::where('slug', $slug)->firstOrFail();
-
         return view('show', ['page' => $page]);
     }
 
@@ -59,28 +58,22 @@ class PageController extends Controller
             return $output;
         }
 
-
-        $url = 'https://pay.xezine.az/api/v1/session';
-        $merchant_key = '98aa0d14-1d44-11ed-ba01-e62d6d068e9c';
-        $merchant_pass = '4793c81766b196912ec030fad06e9756';
-        $order_number = 'azuf_'.bin2hex(random_bytes(10));
+        $url = config('payment.url');
+        $merchant_key = config('payment.merchant_key');
+        $merchant_pass = config('payment.merchant_pass');
+        $order_number = 'azuf_'.bin2hex(random_bytes(10)).'_'.$request->input('subject_id');
         $order_amount = number_format($_POST['payment'],2,'.','');;
         $order_currency = 'AZN';
         $order_description = $request->input('fin') ? strtoupper($request->input('fin')) : 'Anonim';
         $first_name = $request->input('first_name') ? name_to_string($request->input('first_name')): 'Anonim';
         $last_name = $request->input('last_name') ? name_to_string($request->input('last_name')) : 'Anonim';
         $customer_name = $first_name.' '.$last_name;
-
         $fin = $request->input('fin') ?: 'Anonim';
-
         $true_first = $request->input('first_name') ?: 'Anonim';
         $true_last =  $request->input('last_name') ?: 'Anonim';
         $customer_email = $request->input('mail') ?: 'azuf@gmail.com';
-        $cancel_url = 'https://azuf.e-xezine.az/cancel.php';
-        $success_url = 'https://azuf.e-xezine.az/success.php';
-
-
-
+        $cancel_url = route('payment.cancel');
+        $success_url = route('payment.success');
         $billing_city = 'Los Angeles';
         $billing_address = 'Moor Building 35274';
         $billing_zip = $request->input('fin') ?: 'Anonim' ;
@@ -88,7 +81,6 @@ class PageController extends Controller
         $billing_dist = 'Beverlywood';
         $billing_house_number = '777';
         $recurring_init = true;
-
         $headers = array(
             'Content-Type: application/json',
             'Accept: application/json',
@@ -98,8 +90,6 @@ class PageController extends Controller
         $md5_hash = md5($to_md5);
         $sha1_hash = sha1($md5_hash);
         $session_hash = $sha1_hash;
-//        var_dump($session_hash);
-
         $payment_data = array(
             "merchant_key" => $merchant_key,
             "operation" => 'purchase',
@@ -123,9 +113,8 @@ class PageController extends Controller
                 "zip" =>  $fin,
                 "phone" => $billing_phone
             ),
-            'hash' => $session_hash
+            'hash' => $session_hash,
         );
-
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -133,45 +122,60 @@ class PageController extends Controller
         ])->post($url, $payment_data);
 
         if ($response->successful() && isset($response['redirect_url'])) {
-            // Оплата успешно инициирована, перенаправляем пользователя на страницу оплаты
             return redirect()->away($response['redirect_url']);
         } else {
-            // Произошла ошибка при инициировании оплаты, обработайте её соответственно
-            // dd($response);
             return back()->with('error', 'Ошибка при инициировании оплаты. Пожалуйста, попробуйте еще раз.');
         }
-
-
     }
 
-    public function handleNotification(Request $request): Application|Response|JsonResponse|Application_Foundation|ResponseFactory
+
+    public function successOperation(): View
     {
+        return view('success');
+    }
 
-        $data = $request->all();
+    public function cancelOperation(): View
+    {
+        return view('cancel');
+    }
 
-        try {
-            DB::table('payment_info')->insert([
-                'publicID' => $data['id'],
-                'order_num' => $data['order_number'],
-                'order_amount' => $data['order_amount'],
-                'order_status' => $data['status'],
-                'card' => $data['card'],
-                'date' => $data['date'],
-                'card_name' => $data['customer_name'],
-                'customer_email' => $data['customer_email'],
-                'customer_ip' => $data['customer_ip'],
-                'first_name' => $data['customer_city'],
-                'last_name' => $data['customer_state'],
-                'phone' => $data['customer_address'],
-                'fin' => $data['order_description'],
-                'subject'=> 'subject',
-                'description' => 'description',
-                'payment_page_id' => '1'
-            ]);
-            return response()->json(['status'=>'success']);
-        } catch (\Exception $e){
-            dump($e);
-            return response();
+
+    public function handleNotification(Request $request): Application|Response|Application_Foundation|ResponseFactory
+    {
+        $callbackData = $request->all();
+        $orderNumberParts = explode('_', $callbackData['order_number']);
+        $paymentPageId = intval(end($orderNumberParts));
+        if($callbackData['status'] == 'success'){
+            $paymentPage = $paymentPage = PaymentPage::find($paymentPageId);
+            if ($paymentPage) {
+                $dataToInsert = [
+                    'public_id' => $callbackData['id'],
+                    'order_num' => $callbackData['order_number'],
+                    'order_amount' => $callbackData['order_amount'],
+                    'order_status' => $callbackData['status'],
+                    'card' => $callbackData['card'],
+                    'date' => $callbackData['date'],
+                    'card_name' => $callbackData['customer_name'],
+                    'customer_email' => $callbackData['customer_email'],
+                    'customer_ip' => $callbackData['customer_ip'],
+                    'first_name' => $callbackData['customer_city'],
+                    'last_name' => $callbackData['customer_state'],
+                    'phone' => $callbackData['customer_address'],
+                    'fin' => $callbackData['order_description'],
+                    'subject' => $paymentPage->subject,
+                    'description' => $paymentPage->description,
+                    'payment_page_id' => $paymentPageId,
+                ];
+
+                DBdata::create($dataToInsert);
+
+                return response('Callback received', 200);
+            }else{
+                return response('PaymentPage not found', 404);
+            }
+        }else{
+            return response('Callback received', 200);
+
         }
     }
 }

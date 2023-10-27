@@ -31,5 +31,6 @@ class DBdata extends Model
                 'order_amount',
                 'subject',
                 'description',
+                'payment_page_id',
     ];
 }
